@@ -446,7 +446,7 @@
                                       display:flex;align-items:center;justify-content:center;
                                       color:#fff;font-weight:800;font-size:13px;flex-shrink:0;">AC</div>
         <div style="overflow:hidden;">
-          <p id="user-name" style="font-size:13px;font-weight:700;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Ade Kris</p>
+          <p id="user-name" style="font-size:13px;font-weight:700;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Alex Chen</p>
           <p id="user-role" style="font-size:10px;color:#40493d;margin:0;opacity:.65;">User</p>
         </div>
       </div>
@@ -626,7 +626,7 @@ const PAGE_SIZE = 8;
 // ───────────────────────────────────────────
 const DEFAULT_USERS = [
   { email:'admin@projectflow.id', role:'admin', name:'Administrator' },
-  { email:'Ade.krisdianto@mii.co.id',  role:'user',  name:'Ade Kris'     },
+  { email:'alex@projectflow.id',  role:'user',  name:'Alex Chen'     },
   { email:'demo@projectflow.id',  role:'user',  name:'Demo User'     },
 ];
 
@@ -651,9 +651,29 @@ const STATUS_CLS = {
 // ───────────────────────────────────────────
 function lsGet(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }
 function lsSet(k,v) { localStorage.setItem(k, JSON.stringify(v)); }
-function ssGet(k) { try { return JSON.parse(sessionStorage.getItem(k)); } catch { return null; } }
-function ssSet(k,v) { sessionStorage.setItem(k, JSON.stringify(v)); }
-function ssDel(k) { sessionStorage.removeItem(k); }
+function ssGet(k) {
+  try {
+    const raw = sessionStorage.getItem(k);
+    if (raw === null) return null;
+    return JSON.parse(raw);
+  } catch(e) { return null; }
+}
+function ssSet(k,v) {
+  try { sessionStorage.setItem(k, JSON.stringify(v)); } catch(e) {}
+}
+function ssDel(k) { try { sessionStorage.removeItem(k); } catch(e) {} }
+
+function getOTPRecord() {
+  // Try sessionStorage first, fall back to localStorage
+  let rec = ssGet(K_OTP);
+  if (!rec) {
+    try { rec = JSON.parse(localStorage.getItem(K_OTP + '_fb')); } catch(e) { rec = null; }
+  }
+  if (!rec) return null;
+  // Force numeric coercion on exp (guards against string comparison bug)
+  rec.exp = Number(rec.exp);
+  return rec;
+}
 
 function getUsers() { return lsGet(K_USERS) || (lsSet(K_USERS, DEFAULT_USERS), DEFAULT_USERS); }
 function saveUsers(u) { lsSet(K_USERS, u); }
@@ -715,7 +735,10 @@ function requestOTP() {
     showAuthErr('Email ini belum terdaftar. Hubungi admin untuk mendaftarkan akun Anda.'); return;
   }
   const code = String(Math.floor(100000 + Math.random() * 900000));
-  ssSet(K_OTP, { email, code, exp: Date.now() + OTP_TTL * 1000 });
+  const otpRec = { email: email, code: code, exp: Date.now() + OTP_TTL * 1000 };
+  ssSet(K_OTP, otpRec);
+  // Fallback: also store in localStorage in case sessionStorage is restricted
+  try { localStorage.setItem(K_OTP + '_fb', JSON.stringify(otpRec)); } catch(e) {}
   document.getElementById('otp-sent-to').textContent = 'Dikirim ke ' + email;
   const hint = document.getElementById('otp-hint');
   hint.style.display = 'block';
@@ -727,10 +750,12 @@ function requestOTP() {
 }
 
 function resendOTP() {
-  const rec = ssGet(K_OTP);
+  const rec = getOTPRecord();
   if (!rec) { backToEmail(); return; }
   const code = String(Math.floor(100000 + Math.random() * 900000));
-  ssSet(K_OTP, { email: rec.email, code, exp: Date.now() + OTP_TTL * 1000 });
+  const newRec = { email: rec.email, code: code, exp: Date.now() + OTP_TTL * 1000 };
+  ssSet(K_OTP, newRec);
+  try { localStorage.setItem(K_OTP + '_fb', JSON.stringify(newRec)); } catch(e) {}
   document.getElementById('otp-hint').innerHTML = '<strong>🔒 Demo Mode</strong> — Kode OTP baru: <span style="letter-spacing:.18em;font-size:17px;font-weight:900;color:#166534;">' + code + '</span>';
   resetOTPBoxes();
   clearOTPErr();
@@ -741,8 +766,9 @@ function resendOTP() {
 function verifyOTP() {
   const entered = Array.from(document.querySelectorAll('.otp-box')).map(b => b.value).join('');
   if (entered.length < 6) { showOTPErr('Masukkan 6 digit kode OTP.'); return; }
-  const rec = ssGet(K_OTP);
-  if (!rec || Date.now() > rec.exp) { shakeOTP(); showOTPErr('Kode OTP sudah kadaluarsa. Klik Kirim Ulang.'); return; }
+  const rec = getOTPRecord();
+  const now = Date.now();
+  if (!rec || now > rec.exp) { shakeOTP(); showOTPErr('Kode OTP sudah kadaluarsa. Klik Kirim Ulang.'); return; }
   if (entered !== rec.code) {
     shakeOTP(); showOTPErr('Kode OTP salah. Silakan coba lagi.');
     resetOTPBoxes(); setTimeout(() => document.querySelectorAll('.otp-box')[0].focus(), 50); return;
@@ -750,6 +776,7 @@ function verifyOTP() {
   // Success
   clearInterval(timerInt);
   ssDel(K_OTP);
+  try { localStorage.removeItem(K_OTP + '_fb'); } catch(e) {}
   const users = getUsers();
   const user  = users.find(u => u.email.toLowerCase() === rec.email.toLowerCase());
   const sess  = { email: rec.email, name: user?.name || rec.email, role: user?.role || 'user' };
@@ -766,6 +793,7 @@ function backToEmail() {
 
 function logout() {
   ssDel(K_SESSION); ssDel(K_OTP);
+  try { localStorage.removeItem(K_OTP + '_fb'); } catch(e) {}
   showScreen('scr-auth');
   document.getElementById('inp-email').value = '';
   backToEmail();
