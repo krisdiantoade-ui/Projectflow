@@ -2,342 +2,461 @@
 <html lang="id">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content="ProjectFlow — Enterprise Invoicing & Billing Platform"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="ProjectFlow — Enterprise Invoicing & Billing"/>
 <title>ProjectFlow — Invoicing & Billing</title>
-
-<!-- Tailwind CSS CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
-
-<!-- Google Fonts: Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-
-<!-- Material Symbols -->
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
-
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        fontFamily: { sans: ['Inter', 'sans-serif'] },
-        colors: {
-          primary:   '#0d631b',
-          'primary-dark': '#2E7D32',
-          'primary-light': '#E8F5E9',
-          surface:   '#fcf9f8',
-          'surface-container': '#f0eded',
-          'surface-low': '#f6f3f2',
-          'on-surface': '#1b1b1c',
-          'on-surface-variant': '#40493d',
-          'outline-variant': '#bfcaba',
-          outline:   '#707a6c',
-          error:     '#ba1a1a',
-          'error-container': '#ffdad6',
-        }
-      }
-    }
-  }
-</script>
-
 <style>
-  *, *::before, *::after { box-sizing: border-box; }
-  body { font-family: 'Inter', sans-serif; background: #F5F5F5; color: #1b1b1c; }
-  .ms { font-family: 'Material Symbols Outlined'; font-weight: normal; font-style: normal;
-        font-size: 24px; line-height: 1; letter-spacing: normal; text-transform: none;
-        display: inline-block; white-space: nowrap; word-wrap: normal;
-        direction: ltr; -webkit-font-smoothing: antialiased; }
+*,*::before,*::after{box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#F5F5F5;color:#1b1b1c;margin:0}
+.ms{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;direction:ltr;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-thumb{background:#D1D5DB;border-radius:99px}
 
-  /* ── Scrollbar ── */
-  ::-webkit-scrollbar { width: 5px; height: 5px; }
-  ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 99px; }
+/* ── SCREEN ── */
+.screen{display:none}.screen.on{display:block}
 
-  /* ── Auth ── */
-  .auth-card { background: rgba(255,255,255,.93); backdrop-filter: blur(24px);
-               border-radius: 20px; box-shadow: 0 24px 64px rgba(0,0,0,.14); }
-  .auth-input { width:100%; border:1.5px solid #BFC9BA; border-radius:10px;
-                padding:11px 14px; font-size:14px; font-family:inherit;
-                outline:none; transition:border-color .2s, box-shadow .2s; background:#fff; }
-  .auth-input:focus { border-color:#0d631b; box-shadow:0 0 0 3px rgba(13,99,27,.1); }
-  .auth-btn { width:100%; background:#2E7D32; color:#fff; font-weight:700;
-              font-size:15px; padding:13px; border-radius:10px; border:none;
-              cursor:pointer; transition:opacity .2s, transform .1s; font-family:inherit; }
-  .auth-btn:hover { opacity:.88; }
-  .auth-btn:active { transform:scale(.98); }
-  .auth-btn:disabled { opacity:.4; cursor:not-allowed; }
-  .otp-box { width:50px; height:58px; text-align:center; font-size:22px; font-weight:800;
-             border:1.5px solid #BFC9BA; border-radius:10px; outline:none; font-family:inherit;
-             transition:border-color .2s, box-shadow .2s, background .2s; }
-  .otp-box:focus { border-color:#0d631b; box-shadow:0 0 0 3px rgba(13,99,27,.12); }
-  .otp-box.filled { border-color:#0d631b; background:#f0fdf4; }
-  .err-box { padding:10px 14px; background:#fff0f0; border-radius:8px;
-             border-left:3px solid #ba1a1a; font-size:13px; color:#ba1a1a; }
-  .hint-box { padding:10px 14px; background:#f0fdf4; border-radius:8px;
-              border:1px dashed #86efac; font-size:12px; color:#166534; text-align:center; }
+/* ── AUTH ── */
+.auth-bg{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#f0fdf4 0%,#dcfce7 40%,#bbf7d0 100%);padding:16px}
+.auth-card{background:rgba(255,255,255,.96);backdrop-filter:blur(24px);border-radius:24px;
+  box-shadow:0 24px 64px rgba(0,0,0,.14);width:100%;max-width:440px;padding:40px 38px}
+.inp{width:100%;border:1.5px solid #D1D5DB;border-radius:11px;padding:11px 14px;font-size:14px;
+  font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s;background:#fff;color:#111827}
+.inp:focus{border-color:#2E7D32;box-shadow:0 0 0 3px rgba(46,125,50,.11)}
+.inp.shake{animation:shake .4s ease}
+.inp-wrap{position:relative}
+.inp-wrap .ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#9ca3af;font-size:20px;pointer-events:none}
+.inp-wrap .inp{padding-left:44px}
+.inp-wrap .eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);border:none;
+  background:none;cursor:pointer;color:#9ca3af;display:flex;padding:2px;transition:color .15s}
+.inp-wrap .eye:hover{color:#374151}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.06em;color:#40493d;display:block;margin-bottom:5px}
+.btn-g{width:100%;background:#2E7D32;color:#fff;font-weight:700;font-size:15px;padding:13px 20px;
+  border-radius:11px;border:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;
+  justify-content:center;gap:8px;transition:opacity .2s,transform .1s}
+.btn-g:hover{opacity:.88}.btn-g:active{transform:scale(.98)}.btn-g:disabled{opacity:.4;cursor:not-allowed}
+.btn-w{background:#fff;border:1.5px solid #D1D5DB;color:#374151;font-weight:600;font-size:14px;
+  padding:10px 20px;border-radius:11px;cursor:pointer;font-family:inherit;transition:background .15s}
+.btn-w:hover{background:#f9fafb}
+.err{padding:10px 14px;background:#FFF0F0;border-radius:9px;border-left:3px solid #ba1a1a;
+  font-size:13px;color:#ba1a1a;margin-bottom:14px}
+.suc{padding:10px 14px;background:#F0FDF4;border-radius:9px;border-left:3px solid #22c55e;
+  font-size:13px;color:#166534;margin-bottom:14px}
+.pw-bar-wrap{background:#E5E7EB;border-radius:99px;height:3px;margin-top:6px;overflow:hidden}
+.pw-bar{height:3px;border-radius:99px;transition:width .3s,background .3s;width:0%}
 
-  /* ── Animations ── */
-  @keyframes slideUp   { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
-  @keyframes fadeIn    { from{opacity:0} to{opacity:1} }
-  @keyframes shake     { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-7px)} 40%,80%{transform:translateX(7px)} }
-  @keyframes rowIn     { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
-  @keyframes rowOut    { from{opacity:1;transform:translateX(0)} to{opacity:0;transform:translateX(18px)} }
-  @keyframes pulse     { 0%,100%{opacity:1} 50%{opacity:.4} }
-  .anim-slide  { animation: slideUp .35s cubic-bezier(.4,0,.2,1) forwards; }
-  .anim-fade   { animation: fadeIn .25s ease forwards; }
-  .anim-shake  { animation: shake .4s ease; }
-  .row-in      { animation: rowIn .28s ease forwards; }
-  .row-out     { animation: rowOut .22s ease forwards; }
+/* ── ANIMATIONS ── */
+@keyframes slideUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+@keyframes rowIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes rowOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(18px)}}
+.slide-up{animation:slideUp .35s cubic-bezier(.4,0,.2,1) forwards}
+.fade-in{animation:fadeIn .25s ease forwards}
+.row-in{animation:rowIn .28s ease forwards}
+.row-out{animation:rowOut .22s ease forwards}
 
-  /* ── Timer ring ── */
-  .t-ring { stroke-dasharray: 88; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear; }
+/* ── LAYOUT ── */
+.nav-item{display:flex;align-items:center;gap:13px;padding:9px 14px;border-radius:10px;
+  cursor:pointer;transition:background .15s;font-size:14px;font-weight:500;color:#40493d}
+.nav-item:hover{background:#f0eded}.nav-item.active{background:#e8f5e9;color:#0d631b;font-weight:700}
+.nav-item.red{color:#ba1a1a}.nav-item.red:hover{background:#fff0f0}
 
-  /* ── Sidebar nav ── */
-  .nav-item { display:flex; align-items:center; gap:14px; padding:9px 14px; border-radius:10px;
-              cursor:pointer; transition:background .15s, color .15s; font-size:14px; font-weight:500; color:#40493d; }
-  .nav-item:hover { background:#f0eded; }
-  .nav-item.active { background:#e8f5e9; color:#0d631b; font-weight:700; }
-  .nav-item.danger { color:#ba1a1a; }
-  .nav-item.danger:hover { background:#fff0f0; }
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.03em}
+.b-paid{background:#E8F5E9;color:#2E7D32}.b-overdue{background:#FFEBEE;color:#D32F2F}
+.b-draft{background:#F5F5F5;color:#455A64}.b-pending{background:#FFF8E1;color:#F57F17}
+.b-sent{background:#EDE7F6;color:#4527A0}.b-admin{background:#FEF3C7;color:#92400E}
+.b-user{background:#E8F5E9;color:#1B5E20}.b-off{background:#F3F4F6;color:#6B7280}
+.b-on{background:#E8F5E9;color:#2E7D32}.b-warn{background:#FEF3C7;color:#92400E}
 
-  /* ── Status badges ── */
-  .badge { display:inline-flex; align-items:center; padding:3px 10px; border-radius:20px;
-           font-size:11px; font-weight:700; letter-spacing:.04em; }
-  .badge-paid    { background:#E8F5E9; color:#2E7D32; }
-  .badge-overdue { background:#FFEBEE; color:#D32F2F; }
-  .badge-draft   { background:#F5F5F5; color:#455A64; }
-  .badge-pending { background:#FFF8E1; color:#F57F17; }
-  .badge-sent    { background:#EDE7F6; color:#4527A0; }
-  .badge-admin   { background:#FEF3C7; color:#92400E; }
-  .badge-user    { background:#E8F5E9; color:#1B5E20; }
+/* ── TABLE / DROPDOWN ── */
+.tbl-row{border-bottom:1px solid #F3F4F6;transition:background .12s}.tbl-row:hover{background:#FAFAFA}
+.tab-btn{padding:8px 0;font-size:12px;font-weight:600;letter-spacing:.04em;cursor:pointer;
+  border:none;background:none;border-bottom:2px solid transparent;color:#40493d;
+  transition:color .15s,border-color .15s;font-family:inherit}
+.tab-btn.active{color:#0d631b;border-bottom-color:#0d631b}
+.tab-btn:hover:not(.active){color:#0d631b}
+.dd-menu{display:none;position:absolute;right:0;top:38px;background:#fff;border:1px solid #E5E7EB;
+  border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:60;min-width:155px;overflow:hidden}
+.dd-menu.open{display:block}
+.dd-item{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:13px;cursor:pointer;
+  transition:background .12s;font-weight:500}.dd-item:hover{background:#F9FAFB}
+.dd-item.red{color:#DC2626}.dd-item.red:hover{background:#FEF2F2}
 
-  /* ── Dropdown ── */
-  .dd-menu { display:none; position:absolute; right:0; top:36px; background:#fff;
-             border:1px solid #E5E7EB; border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,.12);
-             z-index:60; min-width:150px; overflow:hidden; }
-  .dd-menu.open { display:block; }
-  .dd-item { display:flex; align-items:center; gap:10px; padding:10px 16px;
-             font-size:13px; cursor:pointer; transition:background .12s; font-weight:500; }
-  .dd-item:hover { background:#F9FAFB; }
-  .dd-item.red { color:#DC2626; }
-  .dd-item.red:hover { background:#FEF2F2; }
-
-  /* ── Table ── */
-  .tbl-row { transition:background .12s; }
-  .tbl-row:hover { background:#FAFAFA; }
-
-  /* ── Tabs ── */
-  .tab-btn { padding:8px 0; font-size:12px; font-weight:600; letter-spacing:.04em;
-             cursor:pointer; border:none; background:none; border-bottom:2px solid transparent;
-             color:#40493d; transition:color .15s, border-color .15s; font-family:inherit; }
-  .tab-btn.active { color:#0d631b; border-bottom-color:#0d631b; }
-  .tab-btn:hover:not(.active) { color:#0d631b; }
-
-  /* ── Modal ── */
-  .modal-wrap { position:fixed; inset:0; background:rgba(0,0,0,.42); z-index:90;
-                display:flex; align-items:center; justify-content:center; padding:16px; }
-  .modal-box  { background:#fff; border-radius:16px; box-shadow:0 24px 64px rgba(0,0,0,.2);
-                width:100%; max-width:480px; padding:28px; }
-
-  /* ── Misc ── */
-  .stat-card { background:#fff; border:1px solid #bfcaba; border-radius:14px; padding:20px; }
-  .screen { display:none; }
-  .screen.visible { display:block; }
-
-  /* GitHub Pages friendly: no build step needed */
+/* ── MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;
+  display:flex;align-items:center;justify-content:center;padding:16px}
+.modal-box{background:#fff;border-radius:18px;box-shadow:0 24px 64px rgba(0,0,0,.18);
+  width:100%;max-width:480px;padding:28px}
+.stat-card{background:#fff;border:1px solid #bfcaba;border-radius:14px;padding:20px}
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════
-     SCREEN: AUTH
-══════════════════════════════════════════ -->
-<div id="scr-auth" class="screen visible fixed inset-0 z-[200] flex items-center justify-center"
-     style="background:linear-gradient(135deg,#f0fdf4 0%,#dcfce7 45%,#bbf7d0 100%);">
-
-  <!-- Blobs -->
-  <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div style="position:absolute;top:-100px;right:-100px;width:350px;height:350px;background:rgba(134,239,172,.3);border-radius:50%;filter:blur(70px);"></div>
-    <div style="position:absolute;bottom:-80px;left:-80px;width:300px;height:300px;background:rgba(74,222,128,.22);border-radius:50%;filter:blur(60px);"></div>
-    <div style="position:absolute;top:40%;left:60%;width:200px;height:200px;background:rgba(187,247,208,.4);border-radius:50%;filter:blur(50px);"></div>
+<!-- ════════════════════════════════════
+     AUTH SCREEN
+════════════════════════════════════ -->
+<div id="scr-auth" class="auth-bg">
+  <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none">
+    <div style="position:absolute;top:-120px;right:-120px;width:380px;height:380px;background:rgba(134,239,172,.28);border-radius:50%;filter:blur(80px)"></div>
+    <div style="position:absolute;bottom:-80px;left:-80px;width:320px;height:320px;background:rgba(74,222,128,.2);border-radius:50%;filter:blur(60px)"></div>
   </div>
 
-  <div class="anim-slide w-full relative" style="max-width:420px;margin:0 16px;">
-    <div class="auth-card p-10">
+  <div class="slide-up" style="width:100%;max-width:440px;position:relative">
+    <div class="auth-card">
 
       <!-- Logo -->
-      <div class="text-center mb-8">
-        <div style="display:inline-flex;align-items:center;justify-content:center;width:60px;height:60px;background:#2E7D32;border-radius:18px;margin-bottom:14px;box-shadow:0 8px 20px rgba(46,125,50,.3);">
-          <span class="ms" style="color:#fff;font-size:30px;">receipt_long</span>
+      <div style="text-align:center;margin-bottom:30px">
+        <div style="display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;background:linear-gradient(135deg,#2E7D32,#1B5E20);border-radius:20px;margin-bottom:14px;box-shadow:0 10px 24px rgba(46,125,50,.32)">
+          <span class="ms" style="color:#fff;font-size:32px">receipt_long</span>
         </div>
-        <h1 style="font-size:24px;font-weight:800;color:#14532d;letter-spacing:-.02em;margin:0;">ProjectFlow</h1>
-        <p style="font-size:13px;color:#40493d;margin-top:3px;">Enterprise Invoicing Platform</p>
+        <h1 style="font-size:26px;font-weight:800;color:#14532d;letter-spacing:-.02em;margin:0">ProjectFlow</h1>
+        <p style="font-size:13px;color:#40493d;margin:4px 0 0;opacity:.8">Enterprise Invoicing Platform</p>
       </div>
 
-      <!-- Step 1: Email -->
-      <div id="step-email" class="anim-fade">
-        <h2 style="font-size:18px;font-weight:700;color:#111827;margin:0 0 4px;">Masuk ke Akun Anda</h2>
-        <p style="font-size:13px;color:#6b7280;margin:0 0 22px;">Masukkan email terdaftar untuk menerima kode OTP.</p>
-
-        <label style="font-size:11px;font-weight:700;letter-spacing:.06em;color:#40493d;display:block;margin-bottom:6px;">ALAMAT EMAIL</label>
-        <div style="position:relative;margin-bottom:14px;">
-          <span class="ms" style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#9ca3af;font-size:20px;">mail</span>
-          <input id="inp-email" type="email" class="auth-input" style="padding-left:44px;"
-                 placeholder="nama@perusahaan.com"
-                 oninput="document.getElementById('auth-err').style.display='none'"
-                 onkeydown="if(event.key==='Enter')requestOTP()"/>
-        </div>
-        <div id="auth-err" class="err-box" style="display:none;margin-bottom:14px;"></div>
-        <button class="auth-btn" onclick="requestOTP()">Kirim Kode OTP</button>
-        <p style="text-align:center;font-size:12px;color:#9ca3af;margin-top:18px;">
-          Hanya email yang didaftarkan admin yang dapat masuk.
-        </p>
-      </div>
-
-      <!-- Step 2: OTP -->
-      <div id="step-otp" style="display:none;" class="anim-fade">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
-          <button onclick="backToEmail()"
-                  style="border:none;background:#F3F4F6;cursor:pointer;border-radius:8px;padding:7px;display:flex;align-items:center;transition:background .15s;"
-                  onmouseover="this.style.background='#E5E7EB'" onmouseout="this.style.background='#F3F4F6'">
-            <span class="ms" style="font-size:18px;color:#374151;">arrow_back</span>
-          </button>
-          <div>
-            <h2 style="font-size:18px;font-weight:700;color:#111827;margin:0;line-height:1.2;">Kode Verifikasi</h2>
-            <p id="otp-sent-to" style="font-size:12px;color:#6b7280;margin:0;">Dikirim ke —</p>
+      <!-- ── PANEL: LOGIN ── -->
+      <div id="p-login" class="fade-in">
+        <h2 style="font-size:18px;font-weight:700;color:#111827;margin:0 0 4px">Selamat Datang</h2>
+        <p style="font-size:13px;color:#6b7280;margin:0 0 22px">Masukkan email &amp; password akun Anda.</p>
+        <div id="l-err" class="err" style="display:none"></div>
+        <div style="margin-bottom:14px">
+          <label class="lbl">ALAMAT EMAIL</label>
+          <div class="inp-wrap">
+            <span class="ms ico">mail</span>
+            <input id="l-email" type="email" class="inp" placeholder="email@domain.com"
+              onkeydown="if(event.key==='Enter')doLogin()"/>
           </div>
         </div>
-
-        <!-- OTP Inputs -->
-        <div id="otp-boxes" style="display:flex;gap:8px;justify-content:center;margin-bottom:22px;">
-          <input class="otp-box" maxlength="1" type="text" inputmode="numeric" autocomplete="one-time-code"
-                 oninput="otpInput(this,0)" onkeydown="otpKey(event,0)"/>
-          <input class="otp-box" maxlength="1" type="text" inputmode="numeric"
-                 oninput="otpInput(this,1)" onkeydown="otpKey(event,1)"/>
-          <input class="otp-box" maxlength="1" type="text" inputmode="numeric"
-                 oninput="otpInput(this,2)" onkeydown="otpKey(event,2)"/>
-          <input class="otp-box" maxlength="1" type="text" inputmode="numeric"
-                 oninput="otpInput(this,3)" onkeydown="otpKey(event,3)"/>
-          <input class="otp-box" maxlength="1" type="text" inputmode="numeric"
-                 oninput="otpInput(this,4)" onkeydown="otpKey(event,4)"/>
-          <input class="otp-box" maxlength="1" type="text" inputmode="numeric"
-                 oninput="otpInput(this,5)" onkeydown="otpKey(event,5)"/>
+        <div style="margin-bottom:8px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+            <label class="lbl" style="margin:0">PASSWORD</label>
+            <button onclick="showPanel('forgot')" style="font-size:12px;color:#2E7D32;background:none;border:none;cursor:pointer;font-family:inherit;font-weight:600;padding:0">Lupa password?</button>
+          </div>
+          <div class="inp-wrap">
+            <span class="ms ico">lock</span>
+            <input id="l-pass" type="password" class="inp" placeholder="Masukkan password"
+              onkeydown="if(event.key==='Enter')doLogin()"/>
+            <button class="eye" onclick="toggleEye('l-pass',this)" type="button"><span class="ms" style="font-size:18px">visibility</span></button>
+          </div>
         </div>
-
-        <!-- Timer -->
-        <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:18px;">
-          <svg width="34" height="34" viewBox="0 0 34 34" style="transform:rotate(-90deg);flex-shrink:0;">
-            <circle cx="17" cy="17" r="14" fill="none" stroke="#E5E7EB" stroke-width="3"/>
-            <circle id="t-ring" cx="17" cy="17" r="14" fill="none" stroke="#2E7D32" stroke-width="3"
-                    class="t-ring" stroke-linecap="round"/>
-          </svg>
-          <span id="t-txt" style="font-size:15px;font-weight:700;color:#374151;min-width:36px;">2:00</span>
-          <button id="btn-resend" onclick="resendOTP()"
-                  style="font-size:13px;font-weight:700;color:#2E7D32;background:none;border:none;
-                         cursor:pointer;display:none;font-family:inherit;padding:4px 8px;
-                         border-radius:6px;transition:background .15s;"
-                  onmouseover="this.style.background='#f0fdf4'" onmouseout="this.style.background='none'">
-            ↻ Kirim Ulang
-          </button>
+        <p style="font-size:11px;color:#9ca3af;margin:0 0 18px">Belum punya akun? Hubungi admin.</p>
+        <button class="btn-g" onclick="doLogin()"><span class="ms" style="font-size:18px">login</span>Masuk</button>
+        <div style="margin-top:20px;padding:12px 14px;background:#F0FDF4;border-radius:10px;border:1px dashed #86EFAC">
+          <p style="font-size:11px;font-weight:700;color:#166534;margin:0 0 4px">🔐 Demo Login</p>
+          <p style="font-size:11px;color:#166534;margin:0;line-height:1.6">
+            Admin: <strong>ade.krisdianto@mii.co.id</strong><br>Password: <strong>Admin@2026</strong>
+          </p>
         </div>
-
-        <div id="otp-err" class="err-box" style="display:none;margin-bottom:14px;text-align:center;"></div>
-        <button class="auth-btn" onclick="verifyOTP()">Verifikasi &amp; Masuk</button>
-        <div id="otp-hint" class="hint-box" style="margin-top:14px;display:none;"></div>
       </div>
-    </div>
 
-    <p style="text-align:center;font-size:11px;color:#6b7280;margin-top:14px;">
-      © 2026 ProjectFlow · Secured with OTP Authentication
-    </p>
+      <!-- ── PANEL: FORGOT PASSWORD ── -->
+      <div id="p-forgot" style="display:none" class="fade-in">
+        <button onclick="showPanel('login')" style="display:flex;align-items:center;gap:6px;border:none;background:none;cursor:pointer;font-size:13px;color:#40493d;font-weight:600;font-family:inherit;padding:0;margin-bottom:18px">
+          <span class="ms" style="font-size:18px">arrow_back</span>Kembali ke Login
+        </button>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+          <div style="width:44px;height:44px;background:#FEF3C7;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <span class="ms" style="color:#92400E;font-size:22px">help</span>
+          </div>
+          <div>
+            <h2 style="font-size:17px;font-weight:700;margin:0">Lupa Password?</h2>
+            <p style="font-size:12px;color:#6b7280;margin:2px 0 0">Hubungi admin untuk reset password.</p>
+          </div>
+        </div>
+        <div style="background:#F9FAFB;border-radius:12px;padding:16px;border:1px solid #E5E7EB">
+          <p style="font-size:13px;font-weight:600;color:#111827;margin:0 0 8px">Kontak Administrator</p>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+            <span class="ms" style="font-size:18px;color:#2E7D32">mail</span>
+            <span style="font-size:13px;color:#374151;font-weight:500">ade.krisdianto@mii.co.id</span>
+          </div>
+          <p style="font-size:12px;color:#6b7280;margin:0">Admin akan melakukan reset password dan memberikan password sementara kepada Anda.</p>
+        </div>
+        <p style="font-size:12px;color:#9ca3af;text-align:center;margin-top:18px">Password baru akan dikirim melalui email oleh admin.</p>
+      </div>
+
+      <!-- ── PANEL: MUST CHANGE PW ── -->
+      <div id="p-chpw" style="display:none" class="fade-in">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px">
+          <div style="width:44px;height:44px;background:#FEF3C7;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <span class="ms" style="color:#92400E;font-size:22px">key</span>
+          </div>
+          <div>
+            <h2 style="font-size:17px;font-weight:700;margin:0">Buat Password Baru</h2>
+            <p style="font-size:12px;color:#6b7280;margin:2px 0 0">Password sementara harus diganti sebelum melanjutkan.</p>
+          </div>
+        </div>
+        <div id="cp-err" class="err" style="display:none"></div>
+        <div id="cp-ok" class="suc" style="display:none"></div>
+        <div style="margin-bottom:14px">
+          <label class="lbl">PASSWORD BARU</label>
+          <div class="inp-wrap">
+            <span class="ms ico">lock</span>
+            <input id="cp-new" type="password" class="inp" placeholder="Min. 8 karakter"
+              oninput="pwStrength(this.value,'cpb','cph')"
+              onkeydown="if(event.key==='Enter')doMustChangePw()"/>
+            <button class="eye" onclick="toggleEye('cp-new',this)" type="button"><span class="ms" style="font-size:18px">visibility</span></button>
+          </div>
+          <div class="pw-bar-wrap"><div id="cpb" class="pw-bar"></div></div>
+          <p id="cph" style="font-size:11px;color:#6b7280;margin:4px 0 0"></p>
+        </div>
+        <div style="margin-bottom:20px">
+          <label class="lbl">KONFIRMASI PASSWORD</label>
+          <div class="inp-wrap">
+            <span class="ms ico">lock_reset</span>
+            <input id="cp-conf" type="password" class="inp" placeholder="Ulangi password baru"
+              onkeydown="if(event.key==='Enter')doMustChangePw()"/>
+            <button class="eye" onclick="toggleEye('cp-conf',this)" type="button"><span class="ms" style="font-size:18px">visibility</span></button>
+          </div>
+        </div>
+        <button class="btn-g" onclick="doMustChangePw()"><span class="ms" style="font-size:18px">save</span>Simpan & Masuk</button>
+      </div>
+
+    </div>
+    <p style="text-align:center;font-size:11px;color:#6b7280;margin-top:14px;opacity:.75">© 2026 ProjectFlow · Secured Authentication</p>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     SCREEN: ADMIN PANEL (modal over app)
-══════════════════════════════════════════ -->
-<div id="scr-admin" style="display:none;" class="modal-wrap" style="z-index:150;">
-  <div class="modal-box anim-fade" style="max-width:560px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;padding:0;">
+<!-- ════════════════════════════════════
+     ADMIN PANEL MODAL
+════════════════════════════════════ -->
+<div id="scr-admin" class="modal-bg" style="display:none;z-index:150">
+  <div class="fade-in" style="background:#fff;border-radius:22px;box-shadow:0 24px 64px rgba(0,0,0,.2);
+    width:100%;max-width:720px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column">
+
     <!-- Header -->
-    <div style="padding:22px 26px 16px;border-bottom:1px solid #E5E7EB;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div style="width:40px;height:40px;background:#F3F4F6;border-radius:10px;display:flex;align-items:center;justify-content:center;">
-          <span class="ms" style="font-size:22px;color:#374151;">admin_panel_settings</span>
+    <div style="padding:22px 28px 16px;border-bottom:1px solid #E5E7EB;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="width:44px;height:44px;background:#FEF3C7;border-radius:12px;display:flex;align-items:center;justify-content:center">
+          <span class="ms" style="color:#92400E;font-size:22px">manage_accounts</span>
         </div>
         <div>
-          <h3 style="font-size:16px;font-weight:700;color:#111827;margin:0;">Panel Admin</h3>
-          <p style="font-size:12px;color:#6b7280;margin:0;">Kelola akses pengguna ProjectFlow</p>
+          <h3 style="font-size:17px;font-weight:800;margin:0;color:#111827">Manajemen Pengguna</h3>
+          <p style="font-size:12px;color:#6b7280;margin:2px 0 0">Hanya admin yang dapat mengelola akun</p>
         </div>
       </div>
-      <button onclick="closeAdmin()"
-              style="border:none;background:#F3F4F6;cursor:pointer;border-radius:8px;padding:7px;display:flex;transition:background .15s;"
-              onmouseover="this.style.background='#E5E7EB'" onmouseout="this.style.background='#F3F4F6'">
-        <span class="ms" style="font-size:20px;color:#374151;">close</span>
+      <button onclick="closeAdmin()" style="border:none;background:#F3F4F6;cursor:pointer;border-radius:9px;padding:8px;display:flex;transition:background .15s" onmouseover="this.style.background='#E5E7EB'" onmouseout="this.style.background='#F3F4F6'">
+        <span class="ms" style="font-size:20px;color:#374151">close</span>
       </button>
     </div>
-    <!-- Add user -->
-    <div style="padding:18px 26px;border-bottom:1px solid #F3F4F6;flex-shrink:0;">
-      <p style="font-size:11px;font-weight:700;letter-spacing:.06em;color:#6b7280;margin:0 0 10px;">TAMBAH PENGGUNA BARU</p>
-      <div style="display:flex;gap:8px;">
-        <div style="flex:1;position:relative;">
-          <span class="ms" style="position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#9ca3af;font-size:18px;">mail</span>
-          <input id="adm-email" type="email" class="auth-input" style="padding:10px 12px 10px 38px;font-size:13px;"
-                 placeholder="email@domain.com" onkeydown="if(event.key==='Enter')adminAdd()"/>
+
+    <!-- Search + Add btn -->
+    <div style="padding:14px 28px;border-bottom:1px solid #F3F4F6;display:flex;gap:10px;align-items:center;flex-shrink:0">
+      <div style="flex:1;position:relative">
+        <span class="ms" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#9ca3af;font-size:18px">search</span>
+        <input id="adm-srch" type="text" class="inp" style="padding:9px 12px 9px 40px;font-size:13px"
+          placeholder="Cari nama atau email..." oninput="renderAdmList()"/>
+      </div>
+      <button onclick="admShowTab('add')" class="btn-g" style="width:auto;padding:9px 18px;font-size:13px">
+        <span class="ms" style="font-size:18px">person_add</span>Tambah
+      </button>
+    </div>
+
+    <!-- Tabs -->
+    <div style="display:flex;border-bottom:1px solid #E5E7EB;flex-shrink:0;padding:0 28px">
+      <button id="at-list" onclick="admShowTab('list')" style="padding:11px 0;margin-right:24px;border:none;background:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;color:#0d631b;border-bottom:2px solid #0d631b;letter-spacing:.04em;transition:all .15s">DAFTAR PENGGUNA</button>
+      <button id="at-add"  onclick="admShowTab('add')"  style="padding:11px 0;border:none;background:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;color:#6b7280;border-bottom:2px solid transparent;letter-spacing:.04em;transition:all .15s">TAMBAH PENGGUNA</button>
+    </div>
+
+    <!-- Tab: List -->
+    <div id="ap-list" style="flex:1;overflow-y:auto;padding:0 28px 24px">
+      <div id="adm-list"></div>
+    </div>
+
+    <!-- Tab: Add -->
+    <div id="ap-add" style="display:none;padding:22px 28px 28px;overflow-y:auto;flex:1">
+      <div id="aa-err" class="err" style="display:none"></div>
+      <div id="aa-ok"  class="suc" style="display:none"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div>
+          <label class="lbl">NAMA LENGKAP *</label>
+          <input id="aa-name" type="text" class="inp" placeholder="Nama pengguna"/>
         </div>
-        <select id="adm-role" class="auth-input" style="width:auto;padding:10px 12px;font-size:13px;min-width:100px;">
+        <div>
+          <label class="lbl">ROLE *</label>
+          <select id="aa-role" class="inp" style="background:#fff">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-bottom:14px">
+        <label class="lbl">ALAMAT EMAIL *</label>
+        <div class="inp-wrap">
+          <span class="ms ico">mail</span>
+          <input id="aa-email" type="email" class="inp" placeholder="email@domain.com"/>
+        </div>
+      </div>
+      <div style="margin-bottom:14px">
+        <label class="lbl">PASSWORD SEMENTARA *</label>
+        <div class="inp-wrap">
+          <span class="ms ico">lock</span>
+          <input id="aa-pass" type="text" class="inp" placeholder="Password awal"/>
+          <button onclick="genPw()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);border:none;background:#E8F5E9;color:#2E7D32;font-size:11px;font-weight:700;padding:5px 9px;border-radius:7px;cursor:pointer;font-family:inherit;transition:background .12s" onmouseover="this.style.background='#C8E6C9'" onmouseout="this.style.background='#E8F5E9'">⚡ Generate</button>
+        </div>
+        <p style="font-size:11px;color:#6b7280;margin:5px 0 0">Pengguna wajib mengganti password ini saat pertama kali login.</p>
+      </div>
+      <div style="margin-bottom:20px">
+        <label class="lbl">STATUS AKUN</label>
+        <select id="aa-status" class="inp" style="background:#fff">
+          <option value="active">Aktif</option>
+          <option value="inactive">Nonaktif</option>
+        </select>
+      </div>
+      <button onclick="doAddUser()" class="btn-g"><span class="ms" style="font-size:18px">person_add</span>Tambah Pengguna</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit User Modal -->
+<div id="m-edit-user" class="modal-bg" style="display:none;z-index:160">
+  <div class="modal-box fade-in" style="max-width:520px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:40px;height:40px;background:#E8F5E9;border-radius:10px;display:flex;align-items:center;justify-content:center">
+          <span class="ms" style="font-size:20px;color:#2E7D32">edit</span>
+        </div>
+        <h3 style="font-size:17px;font-weight:700;margin:0">Edit Pengguna</h3>
+      </div>
+      <button onclick="closeEditUser()" style="border:none;background:#F3F4F6;cursor:pointer;border-radius:9px;padding:8px;display:flex;transition:background .15s" onmouseover="this.style.background='#E5E7EB'" onmouseout="this.style.background='#F3F4F6'">
+        <span class="ms" style="font-size:20px;color:#374151">close</span>
+      </button>
+    </div>
+    <div id="eu-err" class="err" style="display:none"></div>
+    <div id="eu-ok"  class="suc" style="display:none"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+      <div>
+        <label class="lbl">NAMA LENGKAP *</label>
+        <input id="eu-name" type="text" class="inp"/>
+      </div>
+      <div>
+        <label class="lbl">ROLE</label>
+        <select id="eu-role" class="inp" style="background:#fff">
           <option value="user">User</option>
           <option value="admin">Admin</option>
         </select>
-        <button onclick="adminAdd()"
-                style="background:#2E7D32;color:#fff;border:none;border-radius:10px;padding:0 18px;
-                       font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;font-family:inherit;
-                       transition:opacity .15s;"
-                onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">+ Tambah</button>
       </div>
-      <p id="adm-err" style="font-size:12px;color:#ba1a1a;margin:6px 0 0;display:none;"></p>
     </div>
-    <!-- User list -->
-    <div style="flex:1;overflow-y:auto;padding:14px 26px 22px;">
-      <p style="font-size:11px;font-weight:700;letter-spacing:.06em;color:#6b7280;margin:0 0 12px;">PENGGUNA TERDAFTAR</p>
-      <div id="adm-list"></div>
+    <div style="margin-bottom:14px">
+      <label class="lbl">EMAIL (tidak dapat diubah)</label>
+      <div class="inp-wrap">
+        <span class="ms ico">mail</span>
+        <input id="eu-email" type="email" class="inp" readonly style="background:#F9FAFB;color:#6b7280;cursor:default"/>
+      </div>
+    </div>
+    <div style="margin-bottom:14px">
+      <label class="lbl">STATUS AKUN</label>
+      <select id="eu-status" class="inp" style="background:#fff">
+        <option value="active">Aktif</option>
+        <option value="inactive">Nonaktif</option>
+      </select>
+    </div>
+    <!-- Reset PW section -->
+    <div style="border-top:1px dashed #E5E7EB;padding-top:16px;margin-bottom:18px">
+      <p class="lbl" style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+        <span class="ms" style="font-size:16px">key</span>RESET PASSWORD PENGGUNA (Opsional)
+      </p>
+      <div class="inp-wrap" style="margin-bottom:6px">
+        <span class="ms ico">lock</span>
+        <input id="eu-newpw" type="password" class="inp" placeholder="Kosongkan jika tidak ingin mereset"/>
+        <button class="eye" onclick="toggleEye('eu-newpw',this)" type="button"><span class="ms" style="font-size:18px">visibility</span></button>
+      </div>
+      <p style="font-size:11px;color:#6b7280;margin:0">Jika diisi, pengguna wajib ganti password saat login berikutnya.</p>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button onclick="closeEditUser()" class="btn-w">Batal</button>
+      <button onclick="saveEditUser()" class="btn-g" style="width:auto;padding:10px 24px"><span class="ms" style="font-size:18px">save</span>Simpan</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     SCREEN: APP
-══════════════════════════════════════════ -->
+<!-- Change Password Modal (in-app) -->
+<div id="m-chpw" class="modal-bg" style="display:none;z-index:160">
+  <div class="modal-box fade-in" style="max-width:430px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:40px;height:40px;background:#EDE7F6;border-radius:10px;display:flex;align-items:center;justify-content:center">
+          <span class="ms" style="font-size:20px;color:#4527A0">lock_reset</span>
+        </div>
+        <h3 style="font-size:17px;font-weight:700;margin:0">Ganti Password</h3>
+      </div>
+      <button onclick="closeChpw()" style="border:none;background:#F3F4F6;cursor:pointer;border-radius:9px;padding:8px;display:flex;transition:background .15s" onmouseover="this.style.background='#E5E7EB'" onmouseout="this.style.background='#F3F4F6'">
+        <span class="ms" style="font-size:20px;color:#374151">close</span>
+      </button>
+    </div>
+    <div id="cw-err" class="err" style="display:none"></div>
+    <div id="cw-ok"  class="suc" style="display:none"></div>
+    <div style="margin-bottom:14px">
+      <label class="lbl">PASSWORD SAAT INI</label>
+      <div class="inp-wrap">
+        <span class="ms ico">lock</span>
+        <input id="cw-old" type="password" class="inp" placeholder="Password lama"/>
+        <button class="eye" onclick="toggleEye('cw-old',this)" type="button"><span class="ms" style="font-size:18px">visibility</span></button>
+      </div>
+    </div>
+    <div style="margin-bottom:14px">
+      <label class="lbl">PASSWORD BARU</label>
+      <div class="inp-wrap">
+        <span class="ms ico">lock_reset</span>
+        <input id="cw-new" type="password" class="inp" placeholder="Min. 8 karakter"
+          oninput="pwStrength(this.value,'cwb','cwh')"/>
+        <button class="eye" onclick="toggleEye('cw-new',this)" type="button"><span class="ms" style="font-size:18px">visibility</span></button>
+      </div>
+      <div class="pw-bar-wrap"><div id="cwb" class="pw-bar"></div></div>
+      <p id="cwh" style="font-size:11px;color:#6b7280;margin:4px 0 0"></p>
+    </div>
+    <div style="margin-bottom:20px">
+      <label class="lbl">KONFIRMASI PASSWORD BARU</label>
+      <div class="inp-wrap">
+        <span class="ms ico">lock</span>
+        <input id="cw-conf" type="password" class="inp" placeholder="Ulangi password baru"/>
+        <button class="eye" onclick="toggleEye('cw-conf',this)" type="button"><span class="ms" style="font-size:18px">visibility</span></button>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button onclick="closeChpw()" class="btn-w">Batal</button>
+      <button onclick="doChpw()" class="btn-g" style="width:auto;padding:10px 24px"><span class="ms" style="font-size:18px">save</span>Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     APP SCREEN
+════════════════════════════════════ -->
 <div id="scr-app" class="screen">
 
   <!-- Invoice Modal -->
-  <div id="inv-modal" style="display:none;" class="modal-wrap" style="z-index:100;">
+  <div id="m-inv" class="modal-bg" style="display:none">
     <div class="modal-box">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
-        <h3 id="inv-modal-title" style="font-size:18px;font-weight:700;margin:0;">Invoice Baru</h3>
-        <button onclick="closeInvModal()"
-                style="border:none;background:#F3F4F6;cursor:pointer;border-radius:8px;padding:7px;display:flex;transition:background .15s;"
-                onmouseover="this.style.background='#E5E7EB'" onmouseout="this.style.background='#F3F4F6'">
-          <span class="ms" style="font-size:20px;color:#374151;">close</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+        <h3 id="inv-title" style="font-size:18px;font-weight:700;margin:0">Invoice Baru</h3>
+        <button onclick="closeInv()" style="border:none;background:#F3F4F6;cursor:pointer;border-radius:9px;padding:8px;display:flex" onmouseover="this.style.background='#E5E7EB'" onmouseout="this.style.background='#F3F4F6'">
+          <span class="ms" style="font-size:20px;color:#374151">close</span>
         </button>
       </div>
-      <div style="display:flex;flex-direction:column;gap:14px;">
+      <div style="display:flex;flex-direction:column;gap:14px">
         <div>
-          <label style="font-size:11px;font-weight:700;letter-spacing:.05em;color:#40493d;display:block;margin-bottom:5px;">NAMA PROYEK *</label>
-          <input id="f-proj" type="text" class="auth-input" placeholder="mis. Skyline Tower Phase 2"/>
+          <label class="lbl">NAMA PROYEK *</label>
+          <input id="f-proj" type="text" class="inp" placeholder="mis. Skyline Tower Phase 2"/>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
           <div>
-            <label style="font-size:11px;font-weight:700;letter-spacing:.05em;color:#40493d;display:block;margin-bottom:5px;">NOMINAL (IDR) *</label>
-            <input id="f-amt" type="number" class="auth-input" placeholder="0" min="0" step="1000"/>
+            <label class="lbl">NOMINAL (IDR) *</label>
+            <input id="f-amt" type="number" class="inp" placeholder="0" min="0" step="1000"/>
           </div>
           <div>
-            <label style="font-size:11px;font-weight:700;letter-spacing:.05em;color:#40493d;display:block;margin-bottom:5px;">JATUH TEMPO *</label>
-            <input id="f-due" type="date" class="auth-input"/>
+            <label class="lbl">JATUH TEMPO *</label>
+            <input id="f-due" type="date" class="inp"/>
           </div>
         </div>
         <div>
-          <label style="font-size:11px;font-weight:700;letter-spacing:.05em;color:#40493d;display:block;margin-bottom:5px;">STATUS *</label>
-          <select id="f-status" class="auth-input" style="background:#fff;">
+          <label class="lbl">STATUS *</label>
+          <select id="f-status" class="inp" style="background:#fff">
             <option value="Draft">Draft</option>
             <option value="Sent">Sent</option>
             <option value="Pending">Pending</option>
@@ -345,291 +464,231 @@
             <option value="Overdue">Overdue</option>
           </select>
         </div>
-        <p id="inv-err" style="font-size:13px;color:#ba1a1a;display:none;margin:0;">Lengkapi semua field yang diperlukan.</p>
+        <p id="inv-err" style="font-size:13px;color:#ba1a1a;display:none;margin:0">Lengkapi semua field yang diperlukan.</p>
       </div>
-      <div style="display:flex;gap:10px;margin-top:22px;justify-content:flex-end;">
-        <button onclick="closeInvModal()"
-                style="padding:10px 20px;border:1.5px solid #bfcaba;border-radius:10px;
-                       background:#fff;font-weight:600;font-size:14px;cursor:pointer;font-family:inherit;
-                       transition:background .15s;"
-                onmouseover="this.style.background='#f6f3f2'" onmouseout="this.style.background='#fff'">Batal</button>
-        <button onclick="saveInvoice()"
-                style="padding:10px 22px;background:#2E7D32;color:#fff;border:none;border-radius:10px;
-                       font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;
-                       display:flex;align-items:center;gap:7px;transition:opacity .15s;"
-                onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
-          <span class="ms" style="font-size:18px;">save</span>Simpan Invoice
-        </button>
+      <div style="display:flex;gap:10px;margin-top:22px;justify-content:flex-end">
+        <button onclick="closeInv()" class="btn-w">Batal</button>
+        <button onclick="saveInv()" class="btn-g" style="width:auto;padding:10px 22px"><span class="ms" style="font-size:18px">save</span>Simpan</button>
       </div>
     </div>
   </div>
 
-  <!-- Delete Confirm Modal -->
-  <div id="del-modal" style="display:none;" class="modal-wrap" style="z-index:100;">
-    <div class="modal-box" style="max-width:380px;text-align:center;">
-      <div style="width:52px;height:52px;background:#FFEBEE;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
-        <span class="ms" style="color:#D32F2F;font-size:26px;">delete_forever</span>
+  <!-- Delete Confirm -->
+  <div id="m-del" class="modal-bg" style="display:none">
+    <div class="modal-box" style="max-width:380px;text-align:center">
+      <div style="width:54px;height:54px;background:#FFEBEE;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px">
+        <span class="ms" style="color:#D32F2F;font-size:28px">delete_forever</span>
       </div>
-      <h3 style="font-size:18px;font-weight:700;margin:0 0 8px;">Hapus Invoice?</h3>
-      <p id="del-msg" style="font-size:13px;color:#6b7280;margin:0 0 22px;">Tindakan ini tidak dapat dibatalkan.</p>
-      <div style="display:flex;gap:10px;justify-content:center;">
-        <button onclick="closeDelModal()"
-                style="padding:10px 22px;border:1.5px solid #bfcaba;border-radius:10px;background:#fff;
-                       font-weight:600;font-size:14px;cursor:pointer;font-family:inherit;transition:background .15s;"
-                onmouseover="this.style.background='#f6f3f2'" onmouseout="this.style.background='#fff'">Batal</button>
-        <button onclick="confirmDelete()"
-                style="padding:10px 22px;background:#ba1a1a;color:#fff;border:none;border-radius:10px;
-                       font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;transition:opacity .15s;"
-                onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">Hapus</button>
+      <h3 style="font-size:18px;font-weight:700;margin:0 0 8px">Hapus Invoice?</h3>
+      <p id="del-msg" style="font-size:13px;color:#6b7280;margin:0 0 22px"></p>
+      <div style="display:flex;gap:10px;justify-content:center">
+        <button onclick="closeDelModal()" class="btn-w">Batal</button>
+        <button onclick="confirmDel()" style="padding:10px 24px;background:#ba1a1a;color:#fff;border:none;border-radius:11px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;transition:opacity .15s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Hapus</button>
       </div>
     </div>
   </div>
 
-  <!-- ── Sidebar ── -->
-  <aside id="sidebar" style="width:256px;height:100vh;position:fixed;left:0;top:0;
-                              background:#fcf9f8;border-right:1px solid #bfcaba;
-                              display:flex;flex-direction:column;padding:24px 0;z-index:50;">
+  <!-- Sidebar -->
+  <aside style="width:258px;height:100vh;position:fixed;left:0;top:0;background:#fcf9f8;
+    border-right:1px solid #bfcaba;display:flex;flex-direction:column;padding:22px 0;z-index:50">
+
     <!-- Brand -->
-    <div style="padding:0 22px 22px;">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div style="width:36px;height:36px;background:#2E7D32;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-          <span class="ms" style="color:#fff;font-size:20px;">receipt_long</span>
+    <div style="padding:0 20px 20px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:38px;height:38px;background:linear-gradient(135deg,#2E7D32,#1B5E20);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <span class="ms" style="color:#fff;font-size:20px">receipt_long</span>
         </div>
         <div>
-          <h1 style="font-size:16px;font-weight:800;color:#0d631b;margin:0;letter-spacing:-.01em;">ProjectFlow</h1>
-          <p style="font-size:10px;color:#40493d;opacity:.65;margin:0;">Enterprise Tracking</p>
+          <h1 style="font-size:16px;font-weight:800;color:#0d631b;margin:0">ProjectFlow</h1>
+          <p style="font-size:10px;color:#40493d;opacity:.6;margin:0">Enterprise Tracking</p>
         </div>
       </div>
     </div>
 
     <!-- Nav -->
-    <nav style="flex:1;padding:0 12px;display:flex;flex-direction:column;gap:2px;">
-      <div class="nav-item">
-        <span class="ms" style="font-size:20px;">dashboard</span>Dashboard
-      </div>
-      <div class="nav-item">
-        <span class="ms" style="font-size:20px;">folder_open</span>Projects
-      </div>
-      <div class="nav-item active">
-        <span class="ms" style="font-size:20px;">receipt_long</span>Invoicing
-      </div>
-      <div id="admin-nav-btn" class="nav-item" style="display:none;" onclick="openAdmin()">
-        <span class="ms" style="font-size:20px;">admin_panel_settings</span>Admin Panel
+    <nav style="flex:1;padding:0 10px;display:flex;flex-direction:column;gap:2px">
+      <div class="nav-item"><span class="ms" style="font-size:20px">dashboard</span>Dashboard</div>
+      <div class="nav-item"><span class="ms" style="font-size:20px">folder_open</span>Projects</div>
+      <div class="nav-item active"><span class="ms" style="font-size:20px">receipt_long</span>Invoicing</div>
+      <div id="nav-admin" class="nav-item" style="display:none" onclick="openAdmin()">
+        <span class="ms" style="font-size:20px">manage_accounts</span>Manajemen User
       </div>
     </nav>
 
-    <!-- New Invoice CTA -->
-    <div style="padding:0 16px 18px;">
-      <button onclick="openInvModal()"
-              style="width:100%;background:#2E7D32;color:#fff;border:none;border-radius:10px;
-                     padding:11px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;
-                     display:flex;align-items:center;justify-content:center;gap:7px;transition:opacity .15s;"
-              onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
-        <span class="ms" style="font-size:18px;">add</span>New Invoice
+    <!-- CTA -->
+    <div style="padding:0 14px 16px">
+      <button onclick="openInv()" class="btn-g" style="font-size:13px;padding:11px">
+        <span class="ms" style="font-size:18px">add</span>New Invoice
       </button>
     </div>
 
     <!-- Bottom -->
-    <div style="border-top:1px solid #bfcaba;padding:14px 12px 0;display:flex;flex-direction:column;gap:2px;">
-      <div class="nav-item">
-        <span class="ms" style="font-size:20px;">settings</span>Settings
-      </div>
-      <div class="nav-item">
-        <span class="ms" style="font-size:20px;">help_outline</span>Support
-      </div>
-      <div class="nav-item danger" onclick="logout()">
-        <span class="ms" style="font-size:20px;">logout</span>Keluar
-      </div>
+    <div style="border-top:1px solid #bfcaba;padding:14px 10px 0;display:flex;flex-direction:column;gap:2px">
+      <div class="nav-item" onclick="openChpw()"><span class="ms" style="font-size:20px">lock_reset</span>Ganti Password</div>
+      <div class="nav-item"><span class="ms" style="font-size:20px">settings</span>Pengaturan</div>
+      <div class="nav-item red" onclick="logout()"><span class="ms" style="font-size:20px">logout</span>Keluar</div>
       <!-- User info -->
-      <div style="display:flex;align-items:center;gap:10px;padding:12px 14px 0;margin-top:4px;">
-        <div id="user-avatar" style="width:34px;height:34px;border-radius:10px;background:#2E7D32;
-                                      display:flex;align-items:center;justify-content:center;
-                                      color:#fff;font-weight:800;font-size:13px;flex-shrink:0;">AC</div>
-        <div style="overflow:hidden;">
-          <p id="user-name" style="font-size:13px;font-weight:700;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Alex Chen</p>
-          <p id="user-role" style="font-size:10px;color:#40493d;margin:0;opacity:.65;">User</p>
+      <div style="display:flex;align-items:center;gap:10px;padding:14px 14px 0;margin-top:6px">
+        <div id="av" style="width:36px;height:36px;border-radius:10px;background:#2E7D32;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:13px;flex-shrink:0">AC</div>
+        <div style="min-width:0">
+          <p id="sb-name" style="font-size:13px;font-weight:700;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">—</p>
+          <p id="sb-role" style="font-size:10px;color:#40493d;margin:0;opacity:.65">User</p>
         </div>
       </div>
     </div>
   </aside>
 
-  <!-- ── Topbar ── -->
-  <header style="height:60px;position:fixed;top:0;left:256px;right:0;background:#fcf9f8;
-                 border-bottom:1px solid #bfcaba;display:flex;align-items:center;
-                 justify-content:space-between;padding:0 24px;z-index:40;">
-    <div style="display:flex;align-items:center;gap:10px;background:#f0eded;padding:8px 16px;
-                border-radius:24px;width:360px;max-width:100%;">
-      <span class="ms" style="font-size:20px;color:#40493d;">search</span>
-      <input id="srch" type="text" oninput="renderTable()"
-             placeholder="Cari invoice atau proyek..."
-             style="background:none;border:none;outline:none;font-size:13px;font-family:inherit;
-                    color:#1b1b1c;width:100%;"/>
+  <!-- Topbar -->
+  <header style="height:60px;position:fixed;top:0;left:258px;right:0;background:#fcf9f8;
+    border-bottom:1px solid #bfcaba;display:flex;align-items:center;justify-content:space-between;
+    padding:0 24px;z-index:40">
+    <div style="display:flex;align-items:center;gap:10px;background:#f0eded;padding:8px 16px;border-radius:24px;width:360px;max-width:100%">
+      <span class="ms" style="font-size:20px;color:#40493d">search</span>
+      <input id="srch" type="text" oninput="renderTable()" placeholder="Cari invoice atau proyek..."
+        style="background:none;border:none;outline:none;font-size:13px;font-family:inherit;color:#1b1b1c;width:100%"/>
     </div>
-    <div style="display:flex;gap:4px;">
-      <button style="border:none;background:none;cursor:pointer;padding:8px;border-radius:50%;
-                     display:flex;align-items:center;transition:background .15s;"
-              onmouseover="this.style.background='#f0eded'" onmouseout="this.style.background='none'">
-        <span class="ms" style="font-size:22px;color:#40493d;">notifications</span>
-      </button>
-      <button style="border:none;background:none;cursor:pointer;padding:8px;border-radius:50%;
-                     display:flex;align-items:center;transition:background .15s;"
-              onmouseover="this.style.background='#f0eded'" onmouseout="this.style.background='none'">
-        <span class="ms" style="font-size:22px;color:#40493d;">apps</span>
+    <div style="display:flex;gap:4px">
+      <button style="border:none;background:none;cursor:pointer;padding:8px;border-radius:50%;display:flex;transition:background .15s" onmouseover="this.style.background='#f0eded'" onmouseout="this.style.background='none'">
+        <span class="ms" style="font-size:22px;color:#40493d">notifications</span>
       </button>
     </div>
   </header>
 
-  <!-- ── Main Content ── -->
-  <main style="margin-left:256px;margin-top:60px;padding:28px;">
-    <div style="max-width:1200px;margin:0 auto;">
+  <!-- Main -->
+  <main style="margin-left:258px;margin-top:60px;padding:28px">
+    <div style="max-width:1200px;margin:0 auto">
 
       <!-- Page Header -->
-      <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:26px;flex-wrap:wrap;gap:14px;">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:26px;flex-wrap:wrap;gap:14px">
         <div>
-          <h2 style="font-size:28px;font-weight:800;color:#1b1b1c;margin:0 0 4px;letter-spacing:-.02em;">Invoicing &amp; Billing</h2>
-          <p style="font-size:14px;color:#40493d;margin:0;">Kelola arus keuangan proyek dan transaksi klien.</p>
+          <h2 style="font-size:28px;font-weight:800;color:#1b1b1c;margin:0 0 4px;letter-spacing:-.02em">Invoicing &amp; Billing</h2>
+          <p style="font-size:14px;color:#40493d;margin:0">Kelola arus keuangan proyek dan transaksi klien.</p>
         </div>
-        <div style="display:flex;gap:10px;">
-          <button onclick="exportCSV()"
-                  style="padding:10px 18px;border:1.5px solid #bfcaba;border-radius:10px;background:#fff;
-                         font-weight:600;font-size:13px;cursor:pointer;font-family:inherit;
-                         display:flex;align-items:center;gap:7px;transition:background .15s;"
-                  onmouseover="this.style.background='#f6f3f2'" onmouseout="this.style.background='#fff'">
-            <span class="ms" style="font-size:18px;color:#40493d;">download</span>Export CSV
+        <div style="display:flex;gap:10px">
+          <button onclick="exportCSV()" class="btn-w" style="display:flex;align-items:center;gap:7px;padding:10px 18px;font-size:13px">
+            <span class="ms" style="font-size:18px;color:#40493d">download</span>Export CSV
           </button>
-          <button onclick="openInvModal()"
-                  style="padding:10px 20px;background:#2E7D32;color:#fff;border:none;border-radius:10px;
-                         font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;
-                         display:flex;align-items:center;gap:7px;transition:opacity .15s;"
-                  onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
-            <span class="ms" style="font-size:18px;">add</span>New Invoice
+          <button onclick="openInv()" class="btn-g" style="width:auto;padding:10px 20px;font-size:13px">
+            <span class="ms" style="font-size:18px">add</span>New Invoice
           </button>
         </div>
       </div>
 
-      <!-- Stats Cards -->
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;" id="stats-grid">
+      <!-- Stats -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
         <div class="stat-card">
-          <p style="font-size:10px;font-weight:700;letter-spacing:.06em;color:#40493d;margin:0 0 10px;text-transform:uppercase;">Total Belum Dibayar</p>
-          <div style="display:flex;align-items:flex-end;justify-content:space-between;">
-            <h3 id="s-outstanding" style="font-size:20px;font-weight:800;margin:0;color:#1b1b1c;">Rp 0</h3>
-            <span id="s-outstanding-badge" style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;background:#f0eded;color:#0d631b;">LIVE</span>
+          <p style="font-size:10px;font-weight:700;letter-spacing:.06em;color:#40493d;margin:0 0 10px;text-transform:uppercase">Total Belum Dibayar</p>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between">
+            <h3 id="s-out" style="font-size:20px;font-weight:800;margin:0">Rp 0</h3>
+            <span id="s-out-b" style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;background:#f0eded;color:#0d631b">LIVE</span>
           </div>
-          <p id="s-outstanding-sub" style="font-size:11px;color:#40493d;margin:6px 0 0;opacity:.75;">0 invoice aktif</p>
+          <p id="s-out-s" style="font-size:11px;color:#40493d;margin:6px 0 0;opacity:.75">0 invoice aktif</p>
         </div>
         <div class="stat-card">
-          <p style="font-size:10px;font-weight:700;letter-spacing:.06em;color:#40493d;margin:0 0 10px;text-transform:uppercase;">Total Lunas</p>
-          <div style="display:flex;align-items:flex-end;justify-content:space-between;">
-            <h3 id="s-paid" style="font-size:20px;font-weight:800;margin:0;color:#1b1b1c;">Rp 0</h3>
-            <span class="ms" style="font-size:20px;color:#0d631b;">trending_up</span>
+          <p style="font-size:10px;font-weight:700;letter-spacing:.06em;color:#40493d;margin:0 0 10px;text-transform:uppercase">Total Lunas</p>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between">
+            <h3 id="s-paid" style="font-size:20px;font-weight:800;margin:0">Rp 0</h3>
+            <span class="ms" style="font-size:20px;color:#0d631b">trending_up</span>
           </div>
-          <p id="s-paid-sub" style="font-size:11px;color:#40493d;margin:6px 0 0;opacity:.75;">Belum ada invoice lunas</p>
+          <p id="s-paid-s" style="font-size:11px;color:#40493d;margin:6px 0 0;opacity:.75">Belum ada invoice lunas</p>
         </div>
         <div class="stat-card">
-          <p style="font-size:10px;font-weight:700;letter-spacing:.06em;color:#40493d;margin:0 0 10px;text-transform:uppercase;">Invoice Jatuh Tempo</p>
-          <div style="display:flex;align-items:flex-end;justify-content:space-between;">
-            <h3 id="s-overdue" style="font-size:20px;font-weight:800;margin:0;color:#ba1a1a;">0</h3>
-            <span id="s-overdue-badge" style="font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;background:#FFEBEE;color:#D32F2F;">OK</span>
+          <p style="font-size:10px;font-weight:700;letter-spacing:.06em;color:#40493d;margin:0 0 10px;text-transform:uppercase">Invoice Jatuh Tempo</p>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between">
+            <h3 id="s-ov" style="font-size:20px;font-weight:800;margin:0;color:#ba1a1a">0</h3>
+            <span id="s-ov-b" class="badge b-on">OK</span>
           </div>
-          <p id="s-overdue-sub" style="font-size:11px;color:#40493d;margin:6px 0 0;opacity:.75;">Tidak ada yang overdue</p>
+          <p id="s-ov-s" style="font-size:11px;color:#40493d;margin:6px 0 0;opacity:.75">Tidak ada yang overdue</p>
         </div>
         <div class="stat-card">
-          <p style="font-size:10px;font-weight:700;letter-spacing:.06em;color:#40493d;margin:0 0 10px;text-transform:uppercase;">Total Invoice</p>
-          <div style="display:flex;align-items:flex-end;justify-content:space-between;">
-            <h3 id="s-total" style="font-size:20px;font-weight:800;margin:0;color:#1b1b1c;">0</h3>
-            <span class="ms" style="font-size:22px;color:#bfcaba;">receipt_long</span>
+          <p style="font-size:10px;font-weight:700;letter-spacing:.06em;color:#40493d;margin:0 0 10px;text-transform:uppercase">Total Invoice</p>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between">
+            <h3 id="s-tot" style="font-size:20px;font-weight:800;margin:0">0</h3>
+            <span class="ms" style="font-size:22px;color:#bfcaba">receipt_long</span>
           </div>
-          <p id="s-total-sub" style="font-size:11px;color:#40493d;margin:6px 0 0;opacity:.75;">0 draft · 0 terkirim</p>
+          <p id="s-tot-s" style="font-size:11px;color:#40493d;margin:6px 0 0;opacity:.75">0 draft · 0 terkirim</p>
         </div>
       </div>
 
-      <!-- Table Card -->
-      <div style="background:#fff;border:1px solid #bfcaba;border-radius:14px;overflow:hidden;">
-        <!-- Tabs -->
-        <div style="padding:14px 22px;border-bottom:1px solid #E5E7EB;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
-          <div style="display:flex;gap:20px;" id="tabs">
+      <!-- Table -->
+      <div style="background:#fff;border:1px solid #bfcaba;border-radius:14px;overflow:hidden">
+        <div style="padding:14px 22px;border-bottom:1px solid #E5E7EB;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+          <div style="display:flex;gap:20px" id="tabs">
             <button class="tab-btn active" onclick="setTab('All',this)">Semua</button>
             <button class="tab-btn" onclick="setTab('Draft',this)">Draft</button>
             <button class="tab-btn" onclick="setTab('Pending',this)">Pending</button>
             <button class="tab-btn" onclick="setTab('Paid',this)">Lunas</button>
             <button class="tab-btn" onclick="setTab('Overdue',this)">Overdue</button>
           </div>
-          <div style="display:flex;align-items:center;gap:6px;color:#40493d;font-size:12px;font-weight:600;">
-            <span class="ms" style="font-size:18px;">filter_list</span>
-            <span id="filter-lbl">Semua</span>
+          <div style="display:flex;align-items:center;gap:6px;color:#40493d;font-size:12px;font-weight:600">
+            <span class="ms" style="font-size:18px">filter_list</span><span id="f-lbl">Semua</span>
           </div>
         </div>
-
-        <!-- Table -->
-        <div style="overflow-x:auto;">
-          <table style="width:100%;border-collapse:collapse;min-width:640px;">
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;min-width:640px">
             <thead>
-              <tr style="background:#f6f3f2;">
-                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.05em;color:#545656;text-transform:uppercase;">Invoice #</th>
-                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.05em;color:#545656;text-transform:uppercase;">Proyek</th>
-                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.05em;color:#545656;text-transform:uppercase;">Nominal</th>
-                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.05em;color:#545656;text-transform:uppercase;">Jatuh Tempo</th>
-                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.05em;color:#545656;text-transform:uppercase;">Status</th>
-                <th style="padding:12px 20px;text-align:right;font-size:11px;font-weight:700;letter-spacing:.05em;color:#545656;text-transform:uppercase;">Aksi</th>
+              <tr style="background:#f6f3f2">
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.05em;color:#545656;text-transform:uppercase">Invoice #</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.05em;color:#545656;text-transform:uppercase">Proyek</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.05em;color:#545656;text-transform:uppercase">Nominal</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.05em;color:#545656;text-transform:uppercase">Jatuh Tempo</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.05em;color:#545656;text-transform:uppercase">Status</th>
+                <th style="padding:12px 20px;text-align:right;font-size:11px;font-weight:700;letter-spacing:.05em;color:#545656;text-transform:uppercase">Aksi</th>
               </tr>
             </thead>
             <tbody id="tbl-body"></tbody>
           </table>
-          <div id="tbl-empty" style="display:none;flex-direction:column;align-items:center;justify-content:center;padding:56px 20px;text-align:center;">
-            <span class="ms" style="font-size:48px;color:#bfcaba;margin-bottom:12px;">receipt_long</span>
-            <p style="font-size:15px;font-weight:700;color:#40493d;margin:0 0 4px;">Tidak ada invoice ditemukan</p>
-            <p style="font-size:13px;color:#40493d;opacity:.6;margin:0;">Coba filter lain atau tambah invoice baru.</p>
+          <div id="tbl-empty" style="display:none;flex-direction:column;align-items:center;justify-content:center;padding:56px 20px;text-align:center">
+            <span class="ms" style="font-size:48px;color:#bfcaba;margin-bottom:12px">receipt_long</span>
+            <p style="font-size:15px;font-weight:700;color:#40493d;margin:0 0 4px">Tidak ada invoice ditemukan</p>
+            <p style="font-size:13px;color:#40493d;opacity:.6;margin:0">Coba filter lain atau tambah invoice baru.</p>
           </div>
         </div>
-
-        <!-- Pagination -->
-        <div style="padding:12px 20px;border-top:1px solid #E5E7EB;display:flex;align-items:center;justify-content:space-between;">
-          <span id="pg-info" style="font-size:12px;color:#40493d;">Menampilkan 0 invoice</span>
-          <div style="display:flex;align-items:center;gap:6px;">
-            <button onclick="changePage(-1)"
-                    style="border:1px solid #bfcaba;background:#fff;border-radius:8px;padding:6px;cursor:pointer;display:flex;transition:background .12s;"
-                    onmouseover="this.style.background='#f0eded'" onmouseout="this.style.background='#fff'">
-              <span class="ms" style="font-size:18px;color:#40493d;">chevron_left</span>
+        <div style="padding:12px 20px;border-top:1px solid #E5E7EB;display:flex;align-items:center;justify-content:space-between">
+          <span id="pg-info" style="font-size:12px;color:#40493d">—</span>
+          <div style="display:flex;align-items:center;gap:6px">
+            <button onclick="changePage(-1)" style="border:1px solid #bfcaba;background:#fff;border-radius:8px;padding:6px;cursor:pointer;display:flex;transition:background .12s" onmouseover="this.style.background='#f0eded'" onmouseout="this.style.background='#fff'">
+              <span class="ms" style="font-size:18px;color:#40493d">chevron_left</span>
             </button>
-            <span id="pg-ind" style="font-size:12px;font-weight:600;color:#40493d;padding:0 8px;">1 / 1</span>
-            <button onclick="changePage(1)"
-                    style="border:1px solid #bfcaba;background:#fff;border-radius:8px;padding:6px;cursor:pointer;display:flex;transition:background .12s;"
-                    onmouseover="this.style.background='#f0eded'" onmouseout="this.style.background='#fff'">
-              <span class="ms" style="font-size:18px;color:#40493d;">chevron_right</span>
+            <span id="pg-ind" style="font-size:12px;font-weight:600;color:#40493d;padding:0 8px">1 / 1</span>
+            <button onclick="changePage(1)" style="border:1px solid #bfcaba;background:#fff;border-radius:8px;padding:6px;cursor:pointer;display:flex;transition:background .12s" onmouseover="this.style.background='#f0eded'" onmouseout="this.style.background='#fff'">
+              <span class="ms" style="font-size:18px;color:#40493d">chevron_right</span>
             </button>
           </div>
         </div>
-      </div><!-- /table card -->
+      </div>
 
     </div>
   </main>
-</div><!-- /scr-app -->
+</div>
 
-<!-- ══════════════════════════════════════════
+<!-- ════════════════════════════════════
      JAVASCRIPT
-══════════════════════════════════════════ -->
+════════════════════════════════════ -->
 <script>
 'use strict';
 
-// ───────────────────────────────────────────
-// CONSTANTS & STORAGE KEYS
-// ───────────────────────────────────────────
-const K_SESSION = 'pf_session';
-const K_USERS   = 'pf_users';
-const K_OTP     = 'pf_otp';
-const K_INV     = 'pf_invoices';
-const OTP_TTL   = 120; // seconds
+// ── CONSTANTS ──
+const K_USERS   = 'pf_users_v2';
+const K_SESSION = 'pf_session_v2';
+const K_INV     = 'pf_invoices_v2';
 const PAGE_SIZE = 8;
+const SUPER_ADMIN = 'ade.krisdianto@mii.co.id';
 
-// ───────────────────────────────────────────
-// DEFAULT DATA
-// ───────────────────────────────────────────
-const DEFAULT_USERS = [
-  { email:'admin@projectflow.id', role:'admin', name:'Administrator' },
-  { email:'alex@projectflow.id',  role:'user',  name:'Alex Chen'     },
-  { email:'demo@projectflow.id',  role:'user',  name:'Demo User'     },
-];
+// ── STORAGE ──
+const ls  = { get: k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+              set: (k,v) => localStorage.setItem(k, JSON.stringify(v)) };
+const ss  = { get: k => { try { return JSON.parse(sessionStorage.getItem(k)); } catch { return null; } },
+              set: (k,v) => sessionStorage.setItem(k, JSON.stringify(v)),
+              del: k => sessionStorage.removeItem(k) };
 
+// ── SHA-256 PASSWORD HASH ──
+async function hashPw(pw) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw + 'pf_v2_salt'));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+// ── SEED DATA ──
 const SEED_INVOICES = [
   { id:'INV-2024-001', project:'Skyline Residential Wing',      amount:195000000,  due:'2023-10-24', status:'Paid'    },
   { id:'INV-2024-002', project:'Global Logistics Hub',           amount:712500000,  due:'2023-10-12', status:'Overdue' },
@@ -638,348 +697,429 @@ const SEED_INVOICES = [
   { id:'INV-2024-005', project:'Eco-Park Irrigation Plan',       amount:80500000,   due:'2023-11-22', status:'Paid'    },
 ];
 
-const PROJ_ICONS = ['architecture','construction','brush','payments','public',
-                    'design_services','engineering','hub','apartment','park'];
+const PROJ_ICONS = ['architecture','construction','brush','payments','public','design_services','engineering','hub','apartment','park'];
+const STATUS_CLS = { Paid:'b-paid', Overdue:'b-overdue', Draft:'b-draft', Pending:'b-pending', Sent:'b-sent' };
 
-const STATUS_CLS = {
-  Paid:'badge-paid', Overdue:'badge-overdue', Draft:'badge-draft',
-  Pending:'badge-pending', Sent:'badge-sent'
-};
+// ── APP STATE ──
+let invoices = [], currentTab='All', currentPage=1, editingInvId=null, deletingInvId=null, editingUserEmail=null, mustChangePwEmail=null;
 
-// ───────────────────────────────────────────
-// STORAGE HELPERS
-// ───────────────────────────────────────────
-function lsGet(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }
-function lsSet(k,v) { localStorage.setItem(k, JSON.stringify(v)); }
-function ssGet(k) {
-  try {
-    const raw = sessionStorage.getItem(k);
-    if (raw === null) return null;
-    return JSON.parse(raw);
-  } catch(e) { return null; }
-}
-function ssSet(k,v) {
-  try { sessionStorage.setItem(k, JSON.stringify(v)); } catch(e) {}
-}
-function ssDel(k) { try { sessionStorage.removeItem(k); } catch(e) {} }
+// ── USER MANAGEMENT ──
+function getUsers() { return ls.get(K_USERS) || []; }
+function saveUsers(u) { ls.set(K_USERS, u); }
 
-function getOTPRecord() {
-  // Try sessionStorage first, fall back to localStorage
-  let rec = ssGet(K_OTP);
-  if (!rec) {
-    try { rec = JSON.parse(localStorage.getItem(K_OTP + '_fb')); } catch(e) { rec = null; }
+async function initAdmin() {
+  let users = ls.get(K_USERS);
+  if (!users || !users.find(u => u.email.toLowerCase() === SUPER_ADMIN.toLowerCase())) {
+    users = users || [];
+    // Remove any old seed for this email
+    users = users.filter(u => u.email.toLowerCase() !== SUPER_ADMIN.toLowerCase());
+    users.unshift({
+      email: SUPER_ADMIN,
+      name: 'Ade Krisdianto',
+      role: 'admin',
+      status: 'active',
+      pwHash: await hashPw('Admin@2026'),
+      mustChangePw: false,
+      createdAt: '2026-01-01'
+    });
+    ls.set(K_USERS, users);
   }
-  if (!rec) return null;
-  // Force numeric coercion on exp (guards against string comparison bug)
-  rec.exp = Number(rec.exp);
-  return rec;
 }
-
-function getUsers() { return lsGet(K_USERS) || (lsSet(K_USERS, DEFAULT_USERS), DEFAULT_USERS); }
-function saveUsers(u) { lsSet(K_USERS, u); }
 
 function loadInvoices() {
-  const d = lsGet(K_INV);
+  const d = ls.get(K_INV);
   if (d && d.length && d.every(i => Number(i.amount) >= 100000)) return d;
-  lsSet(K_INV, SEED_INVOICES);
+  ls.set(K_INV, SEED_INVOICES);
   return JSON.parse(JSON.stringify(SEED_INVOICES));
 }
-function saveInvoices() { lsSet(K_INV, invoices); }
+function saveInvoices() { ls.set(K_INV, invoices); }
 
-// ───────────────────────────────────────────
-// APP STATE
-// ───────────────────────────────────────────
-let invoices     = [];
-let currentTab   = 'All';
-let currentPage  = 1;
-let editingId    = null;
-let deletingId   = null;
-let timerInt     = null;
-let timerSecs    = OTP_TTL;
-
-// ───────────────────────────────────────────
-// SCREEN CONTROL
-// ───────────────────────────────────────────
-function showScreen(id) {
-  ['scr-auth','scr-app'].forEach(s => {
-    const el = document.getElementById(s);
-    if (el) el.classList.toggle('visible', s === id);
-  });
+// ── SCREEN CONTROL ──
+function showPanel(id) {
+  ['p-login','p-forgot','p-chpw'].forEach(p =>
+    document.getElementById(p).style.display = (p === 'p-' + id) ? 'block' : 'none'
+  );
 }
 
-// ───────────────────────────────────────────
-// FORMAT HELPERS
-// ───────────────────────────────────────────
-function fmtCurrency(n) {
-  return 'Rp\u00a0' + Number(n).toLocaleString('id-ID', {minimumFractionDigits:0});
-}
-function fmtDate(s) {
-  if (!s) return '—';
-  return new Date(s + 'T00:00:00').toLocaleDateString('id-ID', {day:'numeric',month:'short',year:'numeric'});
-}
-function iconFor(id) {
-  let h = 0; for (const c of id) h = (h*31 + c.charCodeAt(0)) & 0xffff;
-  return PROJ_ICONS[h % PROJ_ICONS.length];
+function gotoAuth(panel='login') {
+  document.getElementById('scr-auth').style.display = 'flex';
+  document.getElementById('scr-app').classList.remove('on');
+  showPanel(panel);
 }
 
-// ───────────────────────────────────────────
-// AUTH — OTP
-// ───────────────────────────────────────────
-function requestOTP() {
-  const email = document.getElementById('inp-email').value.trim().toLowerCase();
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    showAuthErr('Masukkan alamat email yang valid.'); return;
-  }
-  const user = getUsers().find(u => u.email.toLowerCase() === email);
-  if (!user) {
-    showAuthErr('Email ini belum terdaftar. Hubungi admin untuk mendaftarkan akun Anda.'); return;
-  }
-  const code = String(Math.floor(100000 + Math.random() * 900000));
-  const otpRec = { email: email, code: code, exp: Date.now() + OTP_TTL * 1000 };
-  ssSet(K_OTP, otpRec);
-  // Fallback: also store in localStorage in case sessionStorage is restricted
-  try { localStorage.setItem(K_OTP + '_fb', JSON.stringify(otpRec)); } catch(e) {}
-  document.getElementById('otp-sent-to').textContent = 'Dikirim ke ' + email;
-  const hint = document.getElementById('otp-hint');
-  hint.style.display = 'block';
-  hint.innerHTML = '<strong>🔒 Demo Mode</strong> — Kode OTP Anda: <span style="letter-spacing:.18em;font-size:17px;font-weight:900;color:#166534;">' + code + '</span>';
-  document.getElementById('step-email').style.display = 'none';
-  document.getElementById('step-otp').style.display = 'block';
-  startTimer();
-  setTimeout(() => document.querySelectorAll('.otp-box')[0].focus(), 80);
+function gotoApp(sess) {
+  document.getElementById('scr-auth').style.display = 'none';
+  document.getElementById('scr-app').classList.add('on');
+  // Sidebar
+  const init = (sess.name || sess.email).slice(0,2).toUpperCase();
+  document.getElementById('av').textContent      = init;
+  document.getElementById('sb-name').textContent = sess.name || sess.email;
+  document.getElementById('sb-role').textContent = sess.role === 'admin' ? 'Administrator' : 'User';
+  document.getElementById('nav-admin').style.display = sess.role === 'admin' ? 'flex' : 'none';
+  invoices = loadInvoices();
+  renderTable();
 }
 
-function resendOTP() {
-  const rec = getOTPRecord();
-  if (!rec) { backToEmail(); return; }
-  const code = String(Math.floor(100000 + Math.random() * 900000));
-  const newRec = { email: rec.email, code: code, exp: Date.now() + OTP_TTL * 1000 };
-  ssSet(K_OTP, newRec);
-  try { localStorage.setItem(K_OTP + '_fb', JSON.stringify(newRec)); } catch(e) {}
-  document.getElementById('otp-hint').innerHTML = '<strong>🔒 Demo Mode</strong> — Kode OTP baru: <span style="letter-spacing:.18em;font-size:17px;font-weight:900;color:#166534;">' + code + '</span>';
-  resetOTPBoxes();
-  clearOTPErr();
-  startTimer();
-  document.querySelectorAll('.otp-box')[0].focus();
-}
+// ── AUTH: LOGIN ──
+async function doLogin() {
+  const email = (document.getElementById('l-email').value || '').trim().toLowerCase();
+  const pw    = document.getElementById('l-pass').value || '';
+  const errEl = document.getElementById('l-err');
+  errEl.style.display = 'none';
 
-function verifyOTP() {
-  const entered = Array.from(document.querySelectorAll('.otp-box')).map(b => b.value).join('');
-  if (entered.length < 6) { showOTPErr('Masukkan 6 digit kode OTP.'); return; }
-  const rec = getOTPRecord();
-  const now = Date.now();
-  if (!rec || now > rec.exp) { shakeOTP(); showOTPErr('Kode OTP sudah kadaluarsa. Klik Kirim Ulang.'); return; }
-  if (entered !== rec.code) {
-    shakeOTP(); showOTPErr('Kode OTP salah. Silakan coba lagi.');
-    resetOTPBoxes(); setTimeout(() => document.querySelectorAll('.otp-box')[0].focus(), 50); return;
-  }
-  // Success
-  clearInterval(timerInt);
-  ssDel(K_OTP);
-  try { localStorage.removeItem(K_OTP + '_fb'); } catch(e) {}
+  if (!email || !pw) { errEl.textContent='Email dan password harus diisi.'; errEl.style.display='block'; return; }
+
   const users = getUsers();
-  const user  = users.find(u => u.email.toLowerCase() === rec.email.toLowerCase());
-  const sess  = { email: rec.email, name: user?.name || rec.email, role: user?.role || 'user' };
-  ssSet(K_SESSION, sess);
-  bootApp(sess);
+  const user  = users.find(u => u.email.toLowerCase() === email);
+  if (!user) { errEl.textContent='Email tidak terdaftar di sistem.'; errEl.style.display='block'; return; }
+  if (user.status === 'inactive') { errEl.textContent='Akun ini telah dinonaktifkan. Hubungi admin.'; errEl.style.display='block'; return; }
+
+  const hash = await hashPw(pw);
+  if (hash !== user.pwHash) {
+    errEl.textContent='Password salah. Silakan coba lagi.'; errEl.style.display='block';
+    const inp = document.getElementById('l-pass');
+    inp.classList.remove('shake'); void inp.offsetWidth; inp.classList.add('shake');
+    setTimeout(() => inp.classList.remove('shake'), 500);
+    return;
+  }
+
+  if (user.mustChangePw) {
+    mustChangePwEmail = email;
+    document.getElementById('cp-new').value = '';
+    document.getElementById('cp-conf').value = '';
+    document.getElementById('cp-err').style.display = 'none';
+    document.getElementById('cp-ok').style.display  = 'none';
+    document.getElementById('cpb').style.width = '0%';
+    document.getElementById('cph').textContent = '';
+    showPanel('chpw');
+    return;
+  }
+
+  const sess = { email: user.email, name: user.name, role: user.role };
+  ss.set(K_SESSION, sess);
+  gotoApp(sess);
 }
 
-function backToEmail() {
-  clearInterval(timerInt);
-  document.getElementById('step-email').style.display = 'block';
-  document.getElementById('step-otp').style.display   = 'none';
-  resetOTPBoxes(); clearOTPErr();
+// ── AUTH: MUST CHANGE PW ──
+async function doMustChangePw() {
+  const newPw = document.getElementById('cp-new').value || '';
+  const conf  = document.getElementById('cp-conf').value || '';
+  const errEl = document.getElementById('cp-err');
+  const okEl  = document.getElementById('cp-ok');
+  errEl.style.display = 'none'; okEl.style.display = 'none';
+
+  if (newPw.length < 8) { errEl.textContent='Password minimal 8 karakter.'; errEl.style.display='block'; return; }
+  if (newPw !== conf)   { errEl.textContent='Konfirmasi password tidak cocok.'; errEl.style.display='block'; return; }
+
+  const users = getUsers();
+  const idx   = users.findIndex(u => u.email.toLowerCase() === (mustChangePwEmail||'').toLowerCase());
+  if (idx === -1) { errEl.textContent='Session error. Silakan login ulang.'; errEl.style.display='block'; return; }
+
+  users[idx].pwHash       = await hashPw(newPw);
+  users[idx].mustChangePw = false;
+  saveUsers(users);
+
+  okEl.textContent='Password berhasil dibuat! Mengalihkan ke dashboard...'; okEl.style.display='block';
+  setTimeout(() => {
+    const sess = { email:users[idx].email, name:users[idx].name, role:users[idx].role };
+    ss.set(K_SESSION, sess);
+    mustChangePwEmail = null;
+    gotoApp(sess);
+  }, 1400);
 }
 
+// ── LOGOUT ──
 function logout() {
-  ssDel(K_SESSION); ssDel(K_OTP);
-  try { localStorage.removeItem(K_OTP + '_fb'); } catch(e) {}
-  showScreen('scr-auth');
-  document.getElementById('inp-email').value = '';
-  backToEmail();
+  ss.del(K_SESSION);
+  document.getElementById('l-email').value = '';
+  document.getElementById('l-pass').value  = '';
+  document.getElementById('l-err').style.display = 'none';
+  gotoAuth('login');
 }
 
-function showAuthErr(msg) { const e=document.getElementById('auth-err'); e.textContent=msg; e.style.display='block'; }
-function showOTPErr(msg)  { const e=document.getElementById('otp-err');  e.textContent=msg; e.style.display='block'; }
-function clearOTPErr()    { document.getElementById('otp-err').style.display='none'; }
+// ── IN-APP CHANGE PW ──
+function openChpw() {
+  ['cw-old','cw-new','cw-conf'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('cw-err').style.display='none';
+  document.getElementById('cw-ok').style.display='none';
+  document.getElementById('cwb').style.width='0%';
+  document.getElementById('cwh').textContent='';
+  document.getElementById('m-chpw').style.display='flex';
+}
+function closeChpw() { document.getElementById('m-chpw').style.display='none'; }
 
-function resetOTPBoxes() {
-  document.querySelectorAll('.otp-box').forEach(b => { b.value=''; b.classList.remove('filled'); });
-}
-function shakeOTP() {
-  const el = document.getElementById('otp-boxes');
-  el.classList.remove('anim-shake'); void el.offsetWidth; el.classList.add('anim-shake');
-  setTimeout(() => el.classList.remove('anim-shake'), 500);
-}
+async function doChpw() {
+  const sess  = ss.get(K_SESSION);
+  const oldPw = document.getElementById('cw-old').value || '';
+  const newPw = document.getElementById('cw-new').value || '';
+  const conf  = document.getElementById('cw-conf').value || '';
+  const errEl = document.getElementById('cw-err');
+  const okEl  = document.getElementById('cw-ok');
+  errEl.style.display='none'; okEl.style.display='none';
 
-// OTP input navigation
-function otpInput(el, idx) {
-  el.value = el.value.replace(/[^0-9]/g, '');
-  el.classList.toggle('filled', !!el.value);
-  clearOTPErr();
-  if (el.value) {
-    const boxes = document.querySelectorAll('.otp-box');
-    if (idx < 5) boxes[idx+1].focus(); else verifyOTP();
-  }
-}
-function otpKey(e, idx) {
-  if (e.key === 'Backspace') {
-    const boxes = document.querySelectorAll('.otp-box');
-    if (!boxes[idx].value && idx > 0) { boxes[idx-1].value=''; boxes[idx-1].classList.remove('filled'); boxes[idx-1].focus(); }
-  }
-}
+  if (!oldPw||!newPw||!conf) { errEl.textContent='Semua field harus diisi.'; errEl.style.display='block'; return; }
+  if (newPw.length<8)        { errEl.textContent='Password baru minimal 8 karakter.'; errEl.style.display='block'; return; }
+  if (newPw!==conf)          { errEl.textContent='Konfirmasi password tidak cocok.'; errEl.style.display='block'; return; }
 
-// Timer
-function startTimer() {
-  clearInterval(timerInt);
-  timerSecs = OTP_TTL;
-  const ring   = document.getElementById('t-ring');
-  const txt    = document.getElementById('t-txt');
-  const resend = document.getElementById('btn-resend');
-  const C = 2 * Math.PI * 14; // circumference
-  ring.style.strokeDasharray  = C;
-  ring.style.strokeDashoffset = 0;
-  ring.style.stroke = '#2E7D32';
-  resend.style.display = 'none';
-  timerInt = setInterval(() => {
-    timerSecs--;
-    const m = Math.floor(timerSecs/60), s = timerSecs%60;
-    txt.textContent = m + ':' + String(s).padStart(2,'0');
-    ring.style.strokeDashoffset = C * (1 - timerSecs / OTP_TTL);
-    if (timerSecs <= 0) {
-      clearInterval(timerInt);
-      txt.textContent = 'Kadaluarsa';
-      ring.style.stroke = '#D1D5DB';
-      resend.style.display = 'inline';
-    }
-  }, 1000);
+  const users   = getUsers();
+  const idx     = users.findIndex(u => u.email.toLowerCase()===(sess?.email||'').toLowerCase());
+  if (idx===-1) { errEl.textContent='Session tidak valid.'; errEl.style.display='block'; return; }
+
+  const oldHash = await hashPw(oldPw);
+  if (oldHash !== users[idx].pwHash) { errEl.textContent='Password lama salah.'; errEl.style.display='block'; return; }
+  if (await hashPw(newPw) === oldHash) { errEl.textContent='Password baru tidak boleh sama dengan yang lama.'; errEl.style.display='block'; return; }
+
+  users[idx].pwHash = await hashPw(newPw);
+  saveUsers(users);
+  okEl.textContent='Password berhasil diubah!'; okEl.style.display='block';
+  setTimeout(() => closeChpw(), 1600);
 }
 
-// ───────────────────────────────────────────
-// ADMIN PANEL
-// ───────────────────────────────────────────
-function openAdmin()  { renderAdmList(); document.getElementById('scr-admin').style.display='flex'; }
-function closeAdmin() { document.getElementById('scr-admin').style.display='none'; }
+// ── ADMIN PANEL ──
+function openAdmin() { admShowTab('list'); renderAdmList(); document.getElementById('scr-admin').style.display='flex'; }
+function closeAdmin(){ document.getElementById('scr-admin').style.display='none'; }
+
+function admShowTab(tab) {
+  const isList = tab==='list';
+  const style = (id, active) => {
+    const el=document.getElementById(id);
+    el.style.color       = active?'#0d631b':'#6b7280';
+    el.style.fontWeight  = active?'700':'600';
+    el.style.borderBottom= active?'2px solid #0d631b':'2px solid transparent';
+  };
+  style('at-list', isList); style('at-add', !isList);
+  document.getElementById('ap-list').style.display = isList?'block':'none';
+  document.getElementById('ap-add').style.display  = !isList?'block':'none';
+  if (isList) renderAdmList();
+}
 
 function renderAdmList() {
-  const users = getUsers();
+  const q     = (document.getElementById('adm-srch').value||'').toLowerCase();
+  const users = getUsers().filter(u =>
+    !q || u.name?.toLowerCase().includes(q) || u.email.toLowerCase().includes(q)
+  );
+  const sess  = ss.get(K_SESSION);
   const el    = document.getElementById('adm-list');
-  if (!users.length) { el.innerHTML='<p style="font-size:13px;color:#9ca3af;text-align:center;padding:20px 0;">Belum ada pengguna.</p>'; return; }
-  el.innerHTML = users.map((u,i) => `
-    <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #F9FAFB;">
-      <div style="width:36px;height:36px;border-radius:10px;
-                  background:${u.role==='admin'?'#FEF3C7':'#E8F5E9'};
-                  display:flex;align-items:center;justify-content:center;
-                  font-weight:800;font-size:13px;color:${u.role==='admin'?'#92400E':'#1B5E20'};flex-shrink:0;">
-        ${u.email.slice(0,2).toUpperCase()}
+
+  if (!users.length) {
+    el.innerHTML=`<div style="text-align:center;padding:36px 0;color:#9ca3af">
+      <span class="ms" style="font-size:36px;display:block;margin-bottom:8px">group_off</span>
+      <p style="font-size:14px;font-weight:600;margin:0">Tidak ada pengguna ditemukan</p></div>`;
+    return;
+  }
+
+  el.innerHTML = users.map((u,i) => {
+    const isMe      = u.email.toLowerCase()===sess?.email?.toLowerCase();
+    const isSuper   = u.email.toLowerCase()===SUPER_ADMIN.toLowerCase();
+    const initials  = (u.name||u.email).slice(0,2).toUpperCase();
+    const avatarBg  = u.role==='admin'?'#FEF3C7':'#E8F5E9';
+    const avatarClr = u.role==='admin'?'#92400E':'#1B5E20';
+    return `
+    <div style="display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid #F3F4F6">
+      <div style="width:40px;height:40px;border-radius:11px;background:${avatarBg};display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:${avatarClr};flex-shrink:0">${initials}</div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <p style="font-size:13px;font-weight:700;color:#111827;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${u.name||'—'} ${isMe?'<span style="font-size:10px;background:#E8F5E9;color:#2E7D32;padding:1px 6px;border-radius:4px;font-weight:700">Anda</span>':''}</p>
+          ${u.mustChangePw?'<span style="font-size:10px;background:#FEF3C7;color:#92400E;padding:1px 7px;border-radius:4px;font-weight:700">⚠ Belum ganti pw</span>':''}
+        </div>
+        <p style="font-size:11px;color:#6b7280;margin:2px 0 0">${u.email}</p>
+        <p style="font-size:10px;color:#9ca3af;margin:1px 0 0">Dibuat: ${u.createdAt||'—'}</p>
       </div>
-      <div style="flex:1;min-width:0;">
-        <p style="font-size:14px;font-weight:700;color:#111827;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${u.name||''}</p>
-        <p style="font-size:12px;color:#6b7280;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${u.email}</p>
+      <span class="badge b-${u.role}">${u.role.toUpperCase()}</span>
+      <span class="badge b-${u.status==='active'?'on':'off'}">${u.status==='active'?'Aktif':'Nonaktif'}</span>
+      <div style="display:flex;gap:4px">
+        <button onclick="openEditUser('${u.email}')" style="border:none;background:#E8F5E9;border-radius:8px;padding:7px;cursor:pointer;display:flex;transition:background .12s" onmouseover="this.style.background='#C8E6C9'" onmouseout="this.style.background='#E8F5E9'" title="Edit">
+          <span class="ms" style="font-size:16px;color:#2E7D32">edit</span>
+        </button>
+        ${!isSuper?`<button onclick="adminDelUser('${u.email}')" style="border:none;background:#FEF2F2;border-radius:8px;padding:7px;cursor:pointer;display:flex;transition:background .12s" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#FEF2F2'" title="Hapus">
+          <span class="ms" style="font-size:16px;color:#DC2626">delete</span>
+        </button>`:'<div style="width:32px"></div>'}
       </div>
-      <span class="badge badge-${u.role}">${u.role.toUpperCase()}</span>
-      <button onclick="adminRemove(${i})"
-              style="border:none;background:#FEF2F2;border-radius:8px;padding:7px;cursor:pointer;display:flex;transition:background .12s;"
-              onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#FEF2F2'" title="Hapus">
-        <span class="ms" style="font-size:16px;color:#DC2626;">delete</span>
-      </button>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
-function adminAdd() {
-  const email = document.getElementById('adm-email').value.trim().toLowerCase();
-  const role  = document.getElementById('adm-role').value;
-  const errEl = document.getElementById('adm-err');
-  errEl.style.display = 'none';
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    errEl.textContent='Masukkan email yang valid.'; errEl.style.display='block'; return;
-  }
+function genPw() {
+  const c='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789@#!';
+  let pw=''; for(let i=0;i<12;i++) pw+=c[Math.floor(Math.random()*c.length)];
+  const el=document.getElementById('aa-pass'); el.value=pw; el.type='text';
+}
+
+async function doAddUser() {
+  const name   = document.getElementById('aa-name').value.trim();
+  const email  = document.getElementById('aa-email').value.trim().toLowerCase();
+  const pass   = document.getElementById('aa-pass').value;
+  const role   = document.getElementById('aa-role').value;
+  const status = document.getElementById('aa-status').value;
+  const errEl  = document.getElementById('aa-err');
+  const okEl   = document.getElementById('aa-ok');
+  errEl.style.display='none'; okEl.style.display='none';
+
+  if (!name||!email||!pass) { errEl.textContent='Nama, email, dan password wajib diisi.'; errEl.style.display='block'; return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent='Format email tidak valid.'; errEl.style.display='block'; return; }
+  if (pass.length<6) { errEl.textContent='Password minimal 6 karakter.'; errEl.style.display='block'; return; }
+
   const users = getUsers();
-  if (users.find(u => u.email.toLowerCase()===email)) {
-    errEl.textContent='Email ini sudah terdaftar.'; errEl.style.display='block'; return;
-  }
-  const name = email.split('@')[0].replace(/[._-]/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
-  users.push({email,role,name});
+  if (users.find(u=>u.email.toLowerCase()===email)) { errEl.textContent='Email sudah terdaftar.'; errEl.style.display='block'; return; }
+
+  const pwHash = await hashPw(pass);
+  users.push({ email, name, role, status, pwHash, mustChangePw:true, createdAt:new Date().toISOString().slice(0,10) });
   saveUsers(users);
-  document.getElementById('adm-email').value='';
+
+  ['aa-name','aa-email','aa-pass'].forEach(id=>document.getElementById(id).value='');
+  okEl.textContent=`✓ Pengguna "${name}" (${email}) berhasil ditambahkan.`; okEl.style.display='block';
+  setTimeout(()=>{ okEl.style.display='none'; admShowTab('list'); }, 2200);
+}
+
+function adminDelUser(email) {
+  if (email.toLowerCase()===SUPER_ADMIN.toLowerCase()) { alert('Akun super admin tidak dapat dihapus.'); return; }
+  const users = getUsers();
+  const user  = users.find(u=>u.email.toLowerCase()===email.toLowerCase());
+  if (!user) return;
+  const sess = ss.get(K_SESSION);
+  if (email.toLowerCase()===sess?.email?.toLowerCase()) { alert('Tidak dapat menghapus akun yang sedang aktif.'); return; }
+  if (!confirm(`Hapus pengguna "${user.name}" (${user.email})?`)) return;
+  saveUsers(users.filter(u=>u.email.toLowerCase()!==email.toLowerCase()));
   renderAdmList();
 }
 
-function adminRemove(idx) {
-  const sess  = ssGet(K_SESSION);
+function openEditUser(email) {
+  const user = getUsers().find(u=>u.email.toLowerCase()===email.toLowerCase());
+  if (!user) return;
+  editingUserEmail = email;
+  document.getElementById('eu-name').value   = user.name||'';
+  document.getElementById('eu-email').value  = user.email;
+  document.getElementById('eu-role').value   = user.role;
+  document.getElementById('eu-status').value = user.status||'active';
+  document.getElementById('eu-newpw').value  = '';
+  document.getElementById('eu-err').style.display='none';
+  document.getElementById('eu-ok').style.display='none';
+  // Lock super admin role/status
+  const isSuper = user.email.toLowerCase()===SUPER_ADMIN.toLowerCase();
+  document.getElementById('eu-role').disabled   = isSuper;
+  document.getElementById('eu-status').disabled = isSuper;
+  document.getElementById('m-edit-user').style.display='flex';
+}
+function closeEditUser() { document.getElementById('m-edit-user').style.display='none'; editingUserEmail=null; }
+
+async function saveEditUser() {
+  const name   = document.getElementById('eu-name').value.trim();
+  const role   = document.getElementById('eu-role').value;
+  const status = document.getElementById('eu-status').value;
+  const newPw  = document.getElementById('eu-newpw').value;
+  const errEl  = document.getElementById('eu-err');
+  const okEl   = document.getElementById('eu-ok');
+  errEl.style.display='none'; okEl.style.display='none';
+
+  if (!name) { errEl.textContent='Nama tidak boleh kosong.'; errEl.style.display='block'; return; }
+
   const users = getUsers();
-  if (users[idx]?.email.toLowerCase() === sess?.email?.toLowerCase()) {
-    alert('Tidak dapat menghapus akun yang sedang aktif.'); return;
+  const idx   = users.findIndex(u=>u.email.toLowerCase()===(editingUserEmail||'').toLowerCase());
+  if (idx===-1) { errEl.textContent='User tidak ditemukan.'; errEl.style.display='block'; return; }
+
+  // Prevent demoting last active admin
+  if (role==='user' && users[idx].role==='admin') {
+    const activeAdmins = users.filter(u=>u.role==='admin'&&u.status==='active').length;
+    if (activeAdmins<=1) { errEl.textContent='Harus ada minimal 1 admin aktif.'; errEl.style.display='block'; return; }
   }
-  users.splice(idx,1); saveUsers(users); renderAdmList();
+
+  if (newPw) {
+    if (newPw.length<6) { errEl.textContent='Password reset minimal 6 karakter.'; errEl.style.display='block'; return; }
+    users[idx].pwHash       = await hashPw(newPw);
+    users[idx].mustChangePw = true;
+  }
+
+  users[idx].name   = name;
+  users[idx].role   = role;
+  users[idx].status = status;
+  saveUsers(users);
+
+  // Update session if editing self
+  const sess = ss.get(K_SESSION);
+  if (sess?.email?.toLowerCase()===editingUserEmail.toLowerCase()) {
+    const updated = {...sess, name, role};
+    ss.set(K_SESSION, updated);
+    document.getElementById('sb-name').textContent = name;
+    document.getElementById('sb-role').textContent = role==='admin'?'Administrator':'User';
+    document.getElementById('av').textContent      = name.slice(0,2).toUpperCase();
+    document.getElementById('nav-admin').style.display = role==='admin'?'flex':'none';
+  }
+
+  okEl.textContent='✓ Perubahan berhasil disimpan.'; okEl.style.display='block';
+  setTimeout(()=>{ closeEditUser(); renderAdmList(); }, 1400);
 }
 
-// ───────────────────────────────────────────
-// INVOICE TABLE
-// ───────────────────────────────────────────
-function getFiltered() {
-  const q = document.getElementById('srch').value.toLowerCase().trim();
-  return invoices.filter(inv => {
-    const tabOk = currentTab==='All' || inv.status===currentTab;
-    const srOk  = !q || inv.project.toLowerCase().includes(q)
-                     || inv.id.toLowerCase().includes(q)
-                     || inv.status.toLowerCase().includes(q);
-    return tabOk && srOk;
+// ── PASSWORD HELPERS ──
+function toggleEye(inputId, btn) {
+  const inp=document.getElementById(inputId);
+  const ico=btn.querySelector('.ms');
+  if(inp.type==='password'){ inp.type='text'; ico.textContent='visibility_off'; }
+  else{ inp.type='password'; ico.textContent='visibility'; }
+}
+
+function pwStrength(pw, barId, hintId) {
+  const bar=document.getElementById(barId), hint=document.getElementById(hintId);
+  if(!pw){ bar.style.width='0%'; hint.textContent=''; return; }
+  let sc=0;
+  if(pw.length>=8)sc++;if(pw.length>=12)sc++;
+  if(/[A-Z]/.test(pw)&&/[a-z]/.test(pw))sc++;
+  if(/[0-9]/.test(pw))sc++;
+  if(/[^A-Za-z0-9]/.test(pw))sc++;
+  const colors=['#ba1a1a','#f97316','#eab308','#22c55e','#16a34a'];
+  const labels=['Sangat lemah','Lemah','Cukup','Kuat','Sangat kuat'];
+  const pct=Math.min(sc*22,100)+'%';
+  bar.style.width=pct; bar.style.background=colors[Math.min(sc-1,4)];
+  hint.textContent=labels[Math.min(sc-1,4)]; hint.style.color=colors[Math.min(sc-1,4)];
+}
+
+// ── INVOICE TABLE ──
+function fmtIDR(n){ return 'Rp\u00a0'+Number(n).toLocaleString('id-ID',{minimumFractionDigits:0}); }
+function fmtDate(s){ if(!s) return '—'; return new Date(s+'T00:00:00').toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'}); }
+function iconFor(id){ let h=0; for(const c of id) h=(h*31+c.charCodeAt(0))&0xffff; return PROJ_ICONS[h%PROJ_ICONS.length]; }
+
+function getFiltered(){
+  const q=(document.getElementById('srch').value||'').toLowerCase().trim();
+  return invoices.filter(inv=>{
+    const tabOk=currentTab==='All'||inv.status===currentTab;
+    const srOk=!q||inv.project.toLowerCase().includes(q)||inv.id.toLowerCase().includes(q)||inv.status.toLowerCase().includes(q);
+    return tabOk&&srOk;
   });
 }
 
-function renderTable() {
-  const filtered = getFiltered();
-  const total    = filtered.length;
-  const pages    = Math.max(1, Math.ceil(total/PAGE_SIZE));
-  if (currentPage > pages) currentPage = pages;
-  const start = (currentPage-1)*PAGE_SIZE;
-  const page  = filtered.slice(start, start+PAGE_SIZE);
+function renderTable(){
+  const filtered=getFiltered(), total=filtered.length;
+  const pages=Math.max(1,Math.ceil(total/PAGE_SIZE));
+  if(currentPage>pages) currentPage=pages;
+  const start=(currentPage-1)*PAGE_SIZE, page=filtered.slice(start,start+PAGE_SIZE);
+  const tbody=document.getElementById('tbl-body'), empty=document.getElementById('tbl-empty');
 
-  const tbody = document.getElementById('tbl-body');
-  const empty = document.getElementById('tbl-empty');
-
-  if (!page.length) {
-    tbody.innerHTML=''; empty.style.display='flex';
-  } else {
+  if(!page.length){ tbody.innerHTML=''; empty.style.display='flex'; }
+  else{
     empty.style.display='none';
-    tbody.innerHTML = page.map(inv => {
-      const icon    = iconFor(inv.id);
-      const cls     = STATUS_CLS[inv.status] || 'badge-draft';
-      const dateCol = inv.status==='Overdue'
-        ? `<span style="color:#D32F2F;font-weight:700;">${fmtDate(inv.due)}</span>`
-        : `<span style="color:#40493d;">${fmtDate(inv.due)}</span>`;
-      return `<tr class="tbl-row row-in" style="border-bottom:1px solid #F3F4F6;" data-id="${inv.id}">
-        <td style="padding:14px 20px;font-size:13px;font-weight:700;color:#1b1b1c;">#${inv.id}</td>
-        <td style="padding:14px 20px;">
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div style="width:32px;height:32px;border-radius:8px;background:#E8F5E9;
-                        display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              <span class="ms" style="font-size:16px;color:#2E7D32;">${icon}</span>
+    tbody.innerHTML=page.map(inv=>{
+      const cls=STATUS_CLS[inv.status]||'b-draft';
+      const dateS=inv.status==='Overdue'?`<span style="color:#D32F2F;font-weight:700">${fmtDate(inv.due)}</span>`:`<span style="color:#40493d">${fmtDate(inv.due)}</span>`;
+      return `<tr class="tbl-row row-in" data-id="${inv.id}">
+        <td style="padding:14px 20px;font-size:13px;font-weight:700">#${inv.id}</td>
+        <td style="padding:14px 20px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:32px;height:32px;border-radius:8px;background:#E8F5E9;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <span class="ms" style="font-size:16px;color:#2E7D32">${iconFor(inv.id)}</span>
             </div>
-            <span style="font-size:13px;font-weight:600;color:#1b1b1c;">${inv.project}</span>
+            <span style="font-size:13px;font-weight:600">${inv.project}</span>
           </div>
         </td>
-        <td style="padding:14px 20px;font-size:13px;color:#1b1b1c;font-weight:500;">${fmtCurrency(inv.amount)}</td>
-        <td style="padding:14px 20px;font-size:13px;">${dateCol}</td>
-        <td style="padding:14px 20px;">
-          <span class="badge ${cls}">${inv.status}</span>
-        </td>
-        <td style="padding:14px 20px;text-align:right;">
-          <div style="position:relative;display:inline-block;">
-            <button onclick="toggleDD('dd-${inv.id}')"
-                    style="border:none;background:none;cursor:pointer;padding:5px;border-radius:6px;
-                           display:flex;transition:background .12s;"
-                    onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='none'">
-              <span class="ms" style="font-size:20px;color:#40493d;">more_vert</span>
+        <td style="padding:14px 20px;font-size:13px;font-weight:500">${fmtIDR(inv.amount)}</td>
+        <td style="padding:14px 20px;font-size:13px">${dateS}</td>
+        <td style="padding:14px 20px"><span class="badge ${cls}">${inv.status}</span></td>
+        <td style="padding:14px 20px;text-align:right">
+          <div style="position:relative;display:inline-block">
+            <button onclick="toggleDD('dd-${inv.id}')" style="border:none;background:none;cursor:pointer;padding:5px;border-radius:6px;display:flex;transition:background .12s" onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='none'">
+              <span class="ms" style="font-size:20px;color:#40493d">more_vert</span>
             </button>
             <div id="dd-${inv.id}" class="dd-menu">
-              <div class="dd-item" onclick="editInv('${inv.id}');closeAllDD();">
-                <span class="ms" style="font-size:16px;">edit</span>Edit
-              </div>
-              <div class="dd-item red" onclick="promptDel('${inv.id}');closeAllDD();">
-                <span class="ms" style="font-size:16px;">delete</span>Hapus
-              </div>
+              <div class="dd-item" onclick="openInv('${inv.id}');closeAllDD()"><span class="ms" style="font-size:16px">edit</span>Edit</div>
+              <div class="dd-item red" onclick="promptDel('${inv.id}');closeAllDD()"><span class="ms" style="font-size:16px">delete</span>Hapus</div>
             </div>
           </div>
         </td>
@@ -987,185 +1127,133 @@ function renderTable() {
     }).join('');
   }
 
-  // Pagination
-  document.getElementById('pg-info').textContent = total===0
-    ? 'Tidak ada invoice' 
-    : `Menampilkan ${start+1}–${Math.min(start+PAGE_SIZE,total)} dari ${total} invoice`;
-  document.getElementById('pg-ind').textContent = `${currentPage} / ${pages}`;
-
+  document.getElementById('pg-info').textContent = total===0?'Tidak ada invoice':`Menampilkan ${start+1}–${Math.min(start+PAGE_SIZE,total)} dari ${total} invoice`;
+  document.getElementById('pg-ind').textContent  = `${currentPage} / ${pages}`;
   updateStats();
 }
 
-function updateStats() {
-  let outstanding=0, oCnt=0, paid=0, pCnt=0, overdue=0, draft=0, sent=0, pending=0;
-  invoices.forEach(inv => {
-    const a = Number(inv.amount);
-    if (inv.status==='Paid') { paid+=a; pCnt++; }
-    else { outstanding+=a; oCnt++; }
-    if (inv.status==='Overdue') overdue++;
-    if (inv.status==='Draft')   draft++;
-    if (inv.status==='Sent')    sent++;
-    if (inv.status==='Pending') pending++;
+function updateStats(){
+  let out=0,oC=0,paid=0,pC=0,ov=0,dr=0,sn=0,pn=0;
+  invoices.forEach(inv=>{
+    const a=Number(inv.amount);
+    if(inv.status==='Paid'){paid+=a;pC++;}else{out+=a;oC++;}
+    if(inv.status==='Overdue')ov++;if(inv.status==='Draft')dr++;
+    if(inv.status==='Sent')sn++;if(inv.status==='Pending')pn++;
   });
-  document.getElementById('s-outstanding').textContent    = fmtCurrency(outstanding);
-  document.getElementById('s-outstanding-badge').textContent = oCnt>0 ? oCnt+' aktif' : 'KOSONG';
-  document.getElementById('s-outstanding-sub').textContent = oCnt===0 ? 'Semua sudah lunas' : oCnt+' invoice belum dibayar';
-  document.getElementById('s-paid').textContent           = fmtCurrency(paid);
-  document.getElementById('s-paid-sub').textContent       = pCnt===0 ? 'Belum ada invoice lunas' : pCnt+' invoice sudah lunas';
-  document.getElementById('s-overdue').textContent        = overdue;
-  document.getElementById('s-overdue-badge').textContent  = overdue>0 ? 'Urgent' : 'OK';
-  document.getElementById('s-overdue-badge').className    = 'badge ' + (overdue>0 ? 'badge-overdue' : 'badge-user');
-  document.getElementById('s-overdue-sub').textContent    = overdue===0 ? 'Tidak ada yang overdue' : overdue+' invoice perlu tindakan';
-  document.getElementById('s-total').textContent          = invoices.length;
-  document.getElementById('s-total-sub').textContent      = draft+' draft · '+(sent+pending)+' terkirim';
+  document.getElementById('s-out').textContent   = fmtIDR(out);
+  document.getElementById('s-out-b').textContent = oC>0?oC+' aktif':'KOSONG';
+  document.getElementById('s-out-s').textContent = oC===0?'Semua sudah lunas':oC+' invoice belum dibayar';
+  document.getElementById('s-paid').textContent  = fmtIDR(paid);
+  document.getElementById('s-paid-s').textContent= pC===0?'Belum ada invoice lunas':pC+' invoice sudah lunas';
+  document.getElementById('s-ov').textContent    = ov;
+  document.getElementById('s-ov-b').className    = 'badge '+(ov>0?'b-overdue':'b-on');
+  document.getElementById('s-ov-b').textContent  = ov>0?'Urgent':'OK';
+  document.getElementById('s-ov-s').textContent  = ov===0?'Tidak ada yang overdue':ov+' invoice perlu tindakan';
+  document.getElementById('s-tot').textContent   = invoices.length;
+  document.getElementById('s-tot-s').textContent = dr+' draft · '+(sn+pn)+' terkirim';
 }
 
-// Tabs
-function setTab(tab, btn) {
-  currentTab = tab; currentPage = 1;
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  document.getElementById('filter-lbl').textContent = {All:'Semua',Draft:'Draft',Pending:'Pending',Paid:'Lunas',Overdue:'Overdue'}[tab]||tab;
+function setTab(tab,btn){
+  currentTab=tab; currentPage=1;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.getElementById('f-lbl').textContent={All:'Semua',Draft:'Draft',Pending:'Pending',Paid:'Lunas',Overdue:'Overdue'}[tab]||tab;
   renderTable();
 }
 
-// Pagination
-function changePage(d) {
-  const p = Math.max(1, Math.ceil(getFiltered().length/PAGE_SIZE));
-  currentPage = Math.max(1, Math.min(currentPage+d, p));
-  renderTable();
+function changePage(d){
+  const p=Math.max(1,Math.ceil(getFiltered().length/PAGE_SIZE));
+  currentPage=Math.max(1,Math.min(currentPage+d,p)); renderTable();
 }
 
-// Dropdown
-function toggleDD(id) {
-  const dd = document.getElementById(id);
-  const was = dd.classList.contains('open');
-  closeAllDD();
-  if (!was) dd.classList.add('open');
-}
-function closeAllDD() {
-  document.querySelectorAll('.dd-menu.open').forEach(d => d.classList.remove('open'));
-}
+function toggleDD(id){const dd=document.getElementById(id);const was=dd.classList.contains('open');closeAllDD();if(!was)dd.classList.add('open');}
+function closeAllDD(){document.querySelectorAll('.dd-menu.open').forEach(d=>d.classList.remove('open'));}
 
-// Invoice Modal
-function openInvModal(id=null) {
-  editingId = id;
+function openInv(id=null){
+  editingInvId=id;
   document.getElementById('inv-err').style.display='none';
-  if (id) {
-    const inv = invoices.find(i=>i.id===id);
-    document.getElementById('inv-modal-title').textContent='Edit Invoice';
-    document.getElementById('f-proj').value   = inv.project;
-    document.getElementById('f-amt').value    = inv.amount;
-    document.getElementById('f-due').value    = inv.due;
-    document.getElementById('f-status').value = inv.status;
+  if(id){
+    const inv=invoices.find(i=>i.id===id);
+    document.getElementById('inv-title').textContent='Edit Invoice';
+    document.getElementById('f-proj').value=inv.project;
+    document.getElementById('f-amt').value=inv.amount;
+    document.getElementById('f-due').value=inv.due;
+    document.getElementById('f-status').value=inv.status;
   } else {
-    document.getElementById('inv-modal-title').textContent='Invoice Baru';
-    document.getElementById('f-proj').value='';
-    document.getElementById('f-amt').value='';
-    document.getElementById('f-due').value='';
+    document.getElementById('inv-title').textContent='Invoice Baru';
+    ['f-proj','f-amt','f-due'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('f-status').value='Draft';
   }
-  document.getElementById('inv-modal').style.display='flex';
+  document.getElementById('m-inv').style.display='flex';
   setTimeout(()=>document.getElementById('f-proj').focus(),80);
 }
-function closeInvModal() { document.getElementById('inv-modal').style.display='none'; editingId=null; }
+function closeInv(){ document.getElementById('m-inv').style.display='none'; editingInvId=null; }
 
-function editInv(id) { openInvModal(id); }
-
-function saveInvoice() {
-  const project = document.getElementById('f-proj').value.trim();
-  const amount  = parseFloat(document.getElementById('f-amt').value);
-  const due     = document.getElementById('f-due').value;
-  const status  = document.getElementById('f-status').value;
-  if (!project || isNaN(amount) || amount<0 || !due || !status) {
-    document.getElementById('inv-err').style.display='block'; return;
-  }
-  const today = new Date().toISOString().slice(0,10);
-  if (editingId) {
-    const idx = invoices.findIndex(i=>i.id===editingId);
-    if (idx!==-1) {
-      const prev    = invoices[idx];
-      const paid_at = status==='Paid' ? (prev.status==='Paid'&&prev.paid_at ? prev.paid_at : today) : null;
-      invoices[idx] = {...prev, project, amount, due, status, paid_at};
-    }
+function saveInv(){
+  const proj=document.getElementById('f-proj').value.trim();
+  const amt=parseFloat(document.getElementById('f-amt').value);
+  const due=document.getElementById('f-due').value;
+  const status=document.getElementById('f-status').value;
+  if(!proj||isNaN(amt)||amt<0||!due||!status){document.getElementById('inv-err').style.display='block';return;}
+  const today=new Date().toISOString().slice(0,10);
+  if(editingInvId){
+    const idx=invoices.findIndex(i=>i.id===editingInvId);
+    if(idx!==-1){const p=invoices[idx];invoices[idx]={...p,project:proj,amount:amt,due,status,paid_at:status==='Paid'?(p.status==='Paid'&&p.paid_at?p.paid_at:today):null};}
   } else {
-    const nums = invoices.map(i=>parseInt(i.id.split('-').pop())||0);
-    const num  = (Math.max(0,...nums)+1).toString().padStart(3,'0');
-    const year = new Date().getFullYear();
-    invoices.unshift({id:`INV-${year}-${num}`, project, amount, due, status, paid_at: status==='Paid'?today:null});
+    const nums=invoices.map(i=>parseInt(i.id.split('-').pop())||0);
+    const num=(Math.max(0,...nums)+1).toString().padStart(3,'0');
+    invoices.unshift({id:`INV-${new Date().getFullYear()}-${num}`,project:proj,amount:amt,due,status,paid_at:status==='Paid'?today:null});
   }
-  saveInvoices(); closeInvModal(); renderTable();
+  saveInvoices(); closeInv(); renderTable();
 }
 
-// Delete
-function promptDel(id) {
-  deletingId = id;
-  const inv  = invoices.find(i=>i.id===id);
-  document.getElementById('del-msg').textContent = `Hapus invoice #${inv.id} — "${inv.project}"? Tindakan ini tidak dapat dibatalkan.`;
-  document.getElementById('del-modal').style.display='flex';
+function promptDel(id){
+  deletingInvId=id;
+  const inv=invoices.find(i=>i.id===id);
+  document.getElementById('del-msg').textContent=`Hapus invoice #${inv.id} — "${inv.project}"? Tindakan ini tidak dapat dibatalkan.`;
+  document.getElementById('m-del').style.display='flex';
 }
-function closeDelModal() { document.getElementById('del-modal').style.display='none'; deletingId=null; }
-function confirmDelete() {
-  if (!deletingId) return;
-  const row = document.querySelector(`tr[data-id="${deletingId}"]`);
-  const finish = () => {
-    invoices = invoices.filter(i=>i.id!==deletingId);
-    saveInvoices(); closeDelModal(); renderTable();
-  };
-  if (row) { row.classList.add('row-out'); setTimeout(finish, 220); }
-  else finish();
+function closeDelModal(){ document.getElementById('m-del').style.display='none'; deletingInvId=null; }
+function confirmDel(){
+  if(!deletingInvId) return;
+  const row=document.querySelector(`tr[data-id="${deletingInvId}"]`);
+  const done=()=>{ invoices=invoices.filter(i=>i.id!==deletingInvId); saveInvoices(); closeDelModal(); renderTable(); };
+  if(row){ row.classList.add('row-out'); setTimeout(done,220); } else done();
 }
 
-// Export CSV
-function exportCSV() {
-  const rows = [['Invoice #','Proyek','Nominal','Jatuh Tempo','Status']];
-  invoices.forEach(i => rows.push([`#${i.id}`, i.project, i.amount, i.due, i.status]));
-  const csv = rows.map(r=>r.map(c=>`"${c}"`).join(',')).join('\n');
-  const a   = Object.assign(document.createElement('a'), {
-    href: 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv),
-    download: 'projectflow-invoices.csv'
-  });
-  a.click();
+function exportCSV(){
+  const rows=[['Invoice #','Proyek','Nominal','Jatuh Tempo','Status']];
+  invoices.forEach(i=>rows.push([`#${i.id}`,i.project,i.amount,i.due,i.status]));
+  const csv=rows.map(r=>r.map(c=>`"${c}"`).join(',')).join('\n');
+  Object.assign(document.createElement('a'),{href:'data:text/csv;charset=utf-8,'+encodeURIComponent(csv),download:'projectflow-invoices.csv'}).click();
 }
 
-// ───────────────────────────────────────────
-// BOOT
-// ───────────────────────────────────────────
-function bootApp(sess) {
-  // Update sidebar user info
-  const initials = (sess.name||sess.email).slice(0,2).toUpperCase();
-  document.getElementById('user-avatar').textContent = initials;
-  document.getElementById('user-name').textContent   = sess.name || sess.email;
-  document.getElementById('user-role').textContent   = sess.role==='admin' ? 'Administrator' : 'User';
-  if (sess.role==='admin') document.getElementById('admin-nav-btn').style.display='flex';
-
-  // Load invoices & render
-  invoices = loadInvoices();
-  showScreen('scr-app');
-  renderTable();
-
-  // Animate auth screen out
-  const auth = document.getElementById('scr-auth');
-  auth.style.transition='opacity .4s ease';
-  auth.style.opacity='0';
-  setTimeout(()=>{ auth.classList.remove('visible'); auth.style.opacity=''; auth.style.transition=''; }, 400);
-}
-
-// Global event listeners
-document.addEventListener('click', e => {
-  if (!e.target.closest('[onclick*="toggleDD"]') && !e.target.closest('.dd-menu')) closeAllDD();
-});
-document.addEventListener('keydown', e => {
-  if (e.key==='Escape') { closeInvModal(); closeDelModal(); closeAdmin(); closeAllDD(); }
-  if (e.key==='Enter'  && document.getElementById('inv-modal').style.display==='flex') saveInvoice();
+// ── GLOBAL EVENTS ──
+document.addEventListener('click',e=>{ if(!e.target.closest('[onclick*="toggleDD"]')&&!e.target.closest('.dd-menu')) closeAllDD(); });
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){ closeInv();closeDelModal();closeAdmin();closeAllDD();closeEditUser();closeChpw(); }
+  if(e.key==='Enter'&&document.getElementById('m-inv').style.display==='flex') saveInv();
 });
 
-// Init on load
-(function init() {
-  const sess = ssGet(K_SESSION);
-  if (sess) bootApp(sess);
-  else showScreen('scr-auth');
-})();
+// ── BOOT ──
+async function boot() {
+  await initAdmin();
+  const sess = ss.get(K_SESSION);
+  if (sess) {
+    const users = getUsers();
+    const user  = users.find(u => u.email.toLowerCase()===sess.email.toLowerCase());
+    if (user && user.status==='active' && !user.mustChangePw) {
+      gotoApp(sess); return;
+    }
+    if (user && user.mustChangePw) {
+      mustChangePwEmail = sess.email;
+      showPanel('chpw'); return;
+    }
+  }
+  gotoAuth('login');
+}
+
+boot();
 </script>
 </body>
 </html>
